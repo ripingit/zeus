@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.chaoxuan.zeus.dao.WorkerTaskMapper">
+    <resultMap id="BaseResultMap" type="org.chaoxuan.zeus.model.WorkerTask">
+        <!--
+        @mbggenerated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="worker_id" jdbcType="INTEGER" property="workerId"/>
+        <result column="fit_task_id" jdbcType="INTEGER" property="fitTaskId"/>
+        <result column="start_at" jdbcType="TIMESTAMP" property="startAt"/>
+        <result column="end_at" jdbcType="TIMESTAMP" property="endAt"/>
+        <result column="requirement_id" jdbcType="INTEGER" property="requirementId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--
+        @mbggenerated
+        -->
+        id, worker_id, fit_task_id, start_at, end_at
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--
+        @mbggenerated
+        -->
+        select
+        <include refid="Base_Column_List"/>
+        from t_worker_task
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--
+        @mbggenerated
+        -->
+        delete from t_worker_task
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="org.chaoxuan.zeus.model.WorkerTask">
+        <!--
+        @mbggenerated
+        -->
+        insert into t_worker_task (id, worker_id, fit_task_id,
+        start_at, end_at)
+        values (#{id,jdbcType=INTEGER}, #{workerId,jdbcType=INTEGER}, #{fitTaskId,jdbcType=INTEGER},
+        #{startAt,jdbcType=TIMESTAMP}, #{endAt,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="org.chaoxuan.zeus.model.WorkerTask">
+        <!--
+        @mbggenerated
+        -->
+        insert into t_worker_task
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="workerId != null">
+                worker_id,
+            </if>
+            <if test="fitTaskId != null">
+                fit_task_id,
+            </if>
+            <if test="requirementId != null">
+                requirement_id,
+            </if>
+            <if test="startAt != null">
+                start_at,
+            </if>
+            <if test="endAt != null">
+                end_at,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="workerId != null">
+                #{workerId,jdbcType=INTEGER},
+            </if>
+            <if test="fitTaskId != null">
+                #{fitTaskId,jdbcType=INTEGER},
+            </if>
+            <if test="requirementId != null">
+                #{requirementId,jdbcType=INTEGER},
+            </if>
+            <if test="startAt != null">
+                #{startAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endAt != null">
+                #{endAt,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="org.chaoxuan.zeus.model.WorkerTask">
+        <!--
+        @mbggenerated
+        -->
+        update t_worker_task
+        <set>
+            <if test="workerId != null">
+                worker_id = #{workerId,jdbcType=INTEGER},
+            </if>
+            <if test="fitTaskId != null">
+                fit_task_id = #{fitTaskId,jdbcType=INTEGER},
+            </if>
+            <if test="startAt != null">
+                start_at = #{startAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endAt != null">
+                end_at = #{endAt,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="org.chaoxuan.zeus.model.WorkerTask">
+        <!--
+        @mbggenerated
+        -->
+        update t_worker_task
+        set worker_id = #{workerId,jdbcType=INTEGER},
+        fit_task_id = #{fitTaskId,jdbcType=INTEGER},
+        start_at = #{startAt,jdbcType=TIMESTAMP},
+        end_at = #{endAt,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="find" parameterType="java.util.Map" resultMap="findMap">
+        select
+        t1.*,
+        t3.contract_money,
+        t5.address,
+        t2.title
+        from
+        t_worker_task t1
+        join
+        t_fit_task_instance t2
+        on
+        t1.fit_task_id = t2.id
+        join
+        t_fit_order t3
+        on
+        t2.fit_order_id = t3.id
+        join
+        t_owner_info t4
+        on
+        t3.user_id = t4.id
+        join
+        t_owner_home_info t5
+        on
+        t4.id = t5.userid
+        <where>
+            <if test="workerId != null">
+                and t1.worker_id = #{workerId}
+            </if>
+            <if test="startAt != null">
+                and t1.start_at &gt;= #{startAt}
+            </if>
+            <if test="endAt != null">
+                and t1.end_at &lt;= #{endAt}
+            </if>
+            <if test="toDays != null">
+                and to_days(#{toDays}) &gt;= to_days(t1.start_at) and to_days(#{toDays}) &lt;= to_days(t1.end_at)
+            </if>
+        </where>
+    </select>
+    <resultMap id="findMap" type="org.chaoxuan.zeus.model.WorkerTask" extends="BaseResultMap">
+        <result column="contract_money" property="contractMoney"/>
+        <result column="address" property="address"/>
+        <result column="title" property="title"/>
+    </resultMap>
+    <select id="searchCountByRequirementId" resultType="int" parameterType="int">
+    SELECT COUNT(*)FROM t_worker_task WHERE requirement_id =#{id}
+    </select>
+
+</mapper>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.chaoxuan.zeus.dao.FitOrderLogMapper">
+  <resultMap id="BaseResultMap" type="org.chaoxuan.zeus.model.FitOrderLog">
+    <!--
+    @mbggenerated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="fit_order_code" jdbcType="INTEGER" property="fitOrderCode" />
+    <result column="operator_id" jdbcType="INTEGER" property="operatorId" />
+    <result column="operation_detail" jdbcType="VARCHAR" property="operationDetail" />
+    <result column="operation_time" jdbcType="TIMESTAMP" property="operationTime" />
+    <result column="key_operation_flag" jdbcType="BIT" property="keyOperationFlag" />
+    <result column="operator_name" jdbcType="VARCHAR" property="operatorName" />
+    <result column="operator_phone" jdbcType="VARCHAR" property="operatorPhone" />
+    <result column="operator_role" jdbcType="VARCHAR" property="operatorRole" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+    @mbggenerated
+    -->
+    id, fit_order_code, operator_id, operation_detail, operation_time, key_operation_flag, 
+    operator_name, operator_phone, operator_role
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--
+    @mbggenerated
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from t_fit_order_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--
+    @mbggenerated
+    -->
+    delete from t_fit_order_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.chaoxuan.zeus.model.FitOrderLog">
+    <!--
+    @mbggenerated
+    -->
+    insert into t_fit_order_log (id, fit_order_code, operator_id, 
+      operation_detail, operation_time, key_operation_flag, 
+      operator_name, operator_phone, operator_role
+      )
+    values (#{id,jdbcType=INTEGER}, #{fitOrderCode,jdbcType=INTEGER}, #{operatorId,jdbcType=INTEGER}, 
+      #{operationDetail,jdbcType=VARCHAR}, #{operationTime,jdbcType=TIMESTAMP}, #{keyOperationFlag,jdbcType=BIT}, 
+      #{operatorName,jdbcType=VARCHAR}, #{operatorPhone,jdbcType=VARCHAR}, #{operatorRole,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.chaoxuan.zeus.model.FitOrderLog">
+    <!--
+    @mbggenerated
+    -->
+    insert into t_fit_order_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="fitOrderCode != null">
+        fit_order_code,
+      </if>
+      <if test="operatorId != null">
+        operator_id,
+      </if>
+      <if test="operationDetail != null">
+        operation_detail,
+      </if>
+      <if test="operationTime != null">
+        operation_time,
+      </if>
+      <if test="keyOperationFlag != null">
+        key_operation_flag,
+      </if>
+      <if test="operatorName != null">
+        operator_name,
+      </if>
+      <if test="operatorPhone != null">
+        operator_phone,
+      </if>
+      <if test="operatorRole != null">
+        operator_role,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="fitOrderCode != null">
+        #{fitOrderCode,jdbcType=INTEGER},
+      </if>
+      <if test="operatorId != null">
+        #{operatorId,jdbcType=INTEGER},
+      </if>
+      <if test="operationDetail != null">
+        #{operationDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="operationTime != null">
+        #{operationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="keyOperationFlag != null">
+        #{keyOperationFlag,jdbcType=BIT},
+      </if>
+      <if test="operatorName != null">
+        #{operatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorPhone != null">
+        #{operatorPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorRole != null">
+        #{operatorRole,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.chaoxuan.zeus.model.FitOrderLog">
+    <!--
+    @mbggenerated
+    -->
+    update t_fit_order_log
+    <set>
+      <if test="fitOrderCode != null">
+        fit_order_code = #{fitOrderCode,jdbcType=INTEGER},
+      </if>
+      <if test="operatorId != null">
+        operator_id = #{operatorId,jdbcType=INTEGER},
+      </if>
+      <if test="operationDetail != null">
+        operation_detail = #{operationDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="operationTime != null">
+        operation_time = #{operationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="keyOperationFlag != null">
+        key_operation_flag = #{keyOperationFlag,jdbcType=BIT},
+      </if>
+      <if test="operatorName != null">
+        operator_name = #{operatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorPhone != null">
+        operator_phone = #{operatorPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorRole != null">
+        operator_role = #{operatorRole,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.chaoxuan.zeus.model.FitOrderLog">
+    <!--
+    @mbggenerated
+    -->
+    update t_fit_order_log
+    set fit_order_code = #{fitOrderCode,jdbcType=INTEGER},
+      operator_id = #{operatorId,jdbcType=INTEGER},
+      operation_detail = #{operationDetail,jdbcType=VARCHAR},
+      operation_time = #{operationTime,jdbcType=TIMESTAMP},
+      key_operation_flag = #{keyOperationFlag,jdbcType=BIT},
+      operator_name = #{operatorName,jdbcType=VARCHAR},
+      operator_phone = #{operatorPhone,jdbcType=VARCHAR},
+      operator_role = #{operatorRole,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="getLastFitOrderLogByOrderCode" parameterType="String" resultMap="BaseResultMap">
+    SELECT * FROM t_fit_order_log
+    WHERE operation_time=(SELECT MAX(operation_time) FROM t_fit_order_log WHERE fit_order_code=#{orderCode})
+    AND fit_order_code=#{orderCode}
+  </select>
+  <select id="listFitOrderLogByOrderCode" parameterType="String" resultMap="BaseResultMap">
+    SELECT * FROM t_fit_order_log WHERE fit_order_code=#{orderCode}
+    ORDER BY operation_time DESC
+  </select>
+
+ 
+</mapper>

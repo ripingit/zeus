@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.chaoxuan.zeus.dao.FitMeassageMapper">
+
+    <resultMap id="getMeassageList" type="org.chaoxuan.zeus.model.FitMeassage">
+            <id column="mid" property="id"></id>
+            <result column="update_time" property="updateTime"></result>
+            <result column="title" property="title"></result>
+            <result column="content" property="content"></result>
+            <result column="reder_status" property="rederStatus"></result>
+            <result column="status" property="status"></result>
+            <result column="remark" property="remark"></result>
+            <result column="action" property="action"></result>
+            <result column="action_task" property="actionTask"></result>
+            <result column="action_content" property="actionContent"></result>
+            <result column="trigger_time" property="triggerTime"></result>
+            <association property="ownerInfo" javaType="org.chaoxuan.zeus.model.OwnerInfo">
+                    <id column="oid" property="id"></id>
+                    <result column="username" property="userName"></result>
+                    <association property="ownerHomeInfo" javaType="org.chaoxuan.zeus.model.OwnerHomeInfo">
+                            <id column="hid" property="id"></id>
+                            <result column="street" property="street"></result>
+                            <result column="district" property="district"></result>
+                    </association>
+            </association>
+    </resultMap>
+    <select id="getMeassageList" resultMap="getMeassageList">
+            SELECT
+                   m.id mid,
+                   m.update_time,
+                   m.title,
+                   m.content,
+                   m.remark,
+                   m.status,
+                   m.action,
+                   m.action_task,
+                   m.action_content,
+                   m.reder_status,
+                   m.trigger_time,
+                   o.id oid,
+                   o.username,
+                   h.id hid,
+                   h.street,
+                   h.district
+               from t_fit_meassage m
+              left join t_owner_info o on m.fromuserid = o.id
+              left join t_owner_home_info h on h.userid = o .id
+              ORDER BY m.trigger_time DESC
+    </select>
+
+    <resultMap id="getMeassage" type="org.chaoxuan.zeus.model.FitMeassage">
+        <id column="mid" property="id"></id>
+        <result column="update_time" property="updateTime"></result>
+        <result column="title" property="title"></result>
+        <result column="content" property="content"></result>
+        <result column="reder_status" property="rederStatus"></result>
+        <result column="status" property="status"></result>
+        <result column="remark" property="remark"></result>
+        <result column="action" property="action"></result>
+        <result column="action_task" property="actionTask"></result>
+        <result column="action_content" property="actionContent"></result>
+        <result column="trigger_time" property="triggerTime"></result>
+        <association property="ownerInfo" javaType="org.chaoxuan.zeus.model.OwnerInfo">
+            <id column="oid" property="id"></id>
+            <result column="username" property="userName"></result>
+            <association property="ownerHomeInfo" javaType="org.chaoxuan.zeus.model.OwnerHomeInfo">
+                <id column="hid" property="id"></id>
+                <result column="street" property="street"></result>
+                <result column="district" property="district"></result>
+            </association>
+        </association>
+    </resultMap>
+    <select id="getMeassage" resultMap="getMeassage">
+        SELECT
+        m.id mid,
+        m.update_time,
+        m.title,
+        m.content,
+        m.remark,
+        m.status,
+        m.action,
+        m.action_task,
+        m.action_content,
+        m.reder_status,
+        m.trigger_time,
+        o.id oid,
+        o.username,
+        h.id hid,
+        h.street,
+        h.district
+        from t_fit_meassage m
+        left join t_owner_info o on m.fromuserid = o.id
+        left join t_owner_home_info h on h.userid = o .id
+        WHERE m.status = #{status}
+        ORDER BY m.trigger_time DESC
+
+    </select>
+</mapper>

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.chaoxuan.zeus.dao.QuotaMaterialMapper">
+	<resultMap id="BaseResultMap" type="org.chaoxuan.zeus.model.QuotaMaterial">
+		<!-- @mbggenerated -->
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="category_id" jdbcType="INTEGER" property="categoryId" />
+		<result column="category_name" jdbcType="VARCHAR" property="categoryName" />
+		<result column="unit" jdbcType="VARCHAR" property="unit" />
+		<result column="title" jdbcType="VARCHAR" property="title" />
+		<!-- <collection property="materialVersions" ofType="org.chaoxuan.zeus.model.QuotaMaterialVersion">
+			<id column="idv" jdbcType="INTEGER" property="id" />
+			<result column="version" jdbcType="VARCHAR" property="version" />
+			<result column="unit_price" jdbcType="REAL" property="unitPrice" />
+			<result column="area" jdbcType="VARCHAR" property="area" />
+			<result column="quota_material_id" jdbcType="INTEGER" property="quotaMaterialId" />
+		</collection> -->
+	</resultMap>
+	<sql id="Base_Column_List">
+		<!-- @mbggenerated -->
+		id, category_id, category_name, unit, title
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		<!-- @mbggenerated -->
+		 select 
+	    <include refid="Base_Column_List" />
+	    from t_quota_material
+	    where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		<!-- @mbggenerated -->
+		delete from t_quota_material
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="org.chaoxuan.zeus.model.QuotaMaterial">
+		<!-- @mbggenerated -->
+		insert into t_quota_material (id, category_id, category_name,
+		unit, title)
+		values (#{id,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{categoryName,jdbcType=VARCHAR},
+		#{unit,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="org.chaoxuan.zeus.model.QuotaMaterial">
+		<!-- @mbggenerated -->
+		insert into t_quota_material
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="categoryId != null">
+				category_id,
+			</if>
+			<if test="categoryName != null">
+				category_name,
+			</if>
+			<if test="unit != null">
+				unit,
+			</if>
+			<if test="title != null">
+				title,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="categoryId != null">
+				#{categoryId,jdbcType=INTEGER},
+			</if>
+			<if test="categoryName != null">
+				#{categoryName,jdbcType=VARCHAR},
+			</if>
+			<if test="unit != null">
+				#{unit,jdbcType=VARCHAR},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="org.chaoxuan.zeus.model.QuotaMaterial">
+		<!-- @mbggenerated -->
+		update t_quota_material
+		<set>
+			<if test="categoryId != null">
+				category_id = #{categoryId,jdbcType=INTEGER},
+			</if>
+			<if test="categoryName != null">
+				category_name = #{categoryName,jdbcType=VARCHAR},
+			</if>
+			<if test="unit != null">
+				unit = #{unit,jdbcType=VARCHAR},
+			</if>
+			<if test="title != null">
+				title = #{title,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="org.chaoxuan.zeus.model.QuotaMaterial">
+		<!-- @mbggenerated -->
+		update t_quota_material
+		set category_id = #{categoryId,jdbcType=INTEGER},
+		category_name = #{categoryName,jdbcType=VARCHAR},
+		unit = #{unit,jdbcType=VARCHAR},
+		title = #{title,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<!-- 根据categoryId查询 -->
+	<select id="selectByCategoryId" resultType="org.chaoxuan.zeus.model.QuotaMaterial" resultMap="findMap">
+		select
+		m.*,mv.id as idv,mv.version,mv.unit_price,mv.area,mv.quota_material_id
+		from t_quota_material m left join t_quota_material_version mv on m.id=mv.quota_material_id
+		where 	
+		m.category_id=#{categoryId}
+	</select>
+	<!-- 查询所有 -->
+	<select id="selectAll" resultType="org.chaoxuan.zeus.model.QuotaMaterial" resultMap="findMap">
+		select
+		m.*,mv.id as idv,mv.version,mv.unit_price,mv.area,mv.quota_material_id
+		from t_quota_material m left join t_quota_material_version mv on m.id=mv.quota_material_id
+		where m.id		
+		order by m.category_id
+	</select>
+	
+		<!-- 通过ArrayId -->
+		<select id="selectByArrayId" resultType="org.chaoxuan.zeus.model.QuotaMaterial" resultMap="findMap">
+		select
+		m.*,mv.id as idv,mv.version,mv.unit_price,mv.area,mv.quota_material_id
+		from t_quota_material m left join t_quota_material_version mv on m.id=mv.quota_material_id
+		where m.id in
+		<foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
+			#{ids}		
+		</foreach>
+	</select>
+	<select id="selectById" parameterType="java.lang.Integer" resultMap="findMap">
+		<!-- @mbggenerated -->
+		select
+		m.*,mv.id as idv,mv.version,mv.unit_price,mv.area,mv.quota_material_id
+		from t_quota_material m left join t_quota_material_version mv on m.id=mv.quota_material_id
+		where m.id = #{id,jdbcType=INTEGER}
+	</select>
+	<resultMap type="org.chaoxuan.zeus.model.QuotaMaterial" id="findMap" extends="BaseResultMap">
+		<collection property="materialVersions" ofType="org.chaoxuan.zeus.model.QuotaMaterialVersion">
+			<id column="idv" jdbcType="INTEGER" property="id" />
+			<result column="version" jdbcType="VARCHAR" property="version" />
+			<result column="unit_price" jdbcType="REAL" property="unitPrice" />
+			<result column="area" jdbcType="VARCHAR" property="area" />
+			<result column="quota_material_id" jdbcType="INTEGER" property="quotaMaterialId" />
+		</collection>
+	</resultMap>
+		
+	<select id="findByMap" parameterType="java.util.Map" resultMap="findMap">
+		<!-- @mbggenerated -->
+		select
+		m.*,mv.id as idv,mv.version,mv.unit_price,mv.area,mv.quota_material_id
+		from t_quota_material m left join t_quota_material_version mv on m.id=mv.quota_material_id
+	</select>
+	<!-- <select id="selectByArrayId" resultType="org.chaoxuan.zeus.model.QuotaMaterial" resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from t_quota_material where id in
+		<foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
+			#{ids}		
+		</foreach>
+	</select> -->
+</mapper>

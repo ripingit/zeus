@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.chaoxuan.zeus.dao.FitOrderMapper">
+    <resultMap id="BaseResultMap" type="org.chaoxuan.zeus.model.FitOrder">
+        <!--
+        @mbggenerated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="user_id" jdbcType="INTEGER" property="userId" />
+        <result column="order_code" jdbcType="VARCHAR" property="orderCode" />
+        <result column="contract_time" jdbcType="TIMESTAMP" property="contractTime" />
+        <result column="predict_time" jdbcType="TIMESTAMP" property="predictTime" />
+        <result column="contract_money" jdbcType="REAL" property="contractMoney" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="manager_id" jdbcType="INTEGER" property="managerId" />
+        <result column="requirement_product_id" jdbcType="INTEGER" property="requirementProductId" />
+        <result column="house_type_id" jdbcType="INTEGER" property="houseTypeId" />
+        <result column="fit_rule_id" jdbcType="INTEGER" property="fitRuleId" />
+        <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+        <result column="payTime" jdbcType="TIMESTAMP" property="paytime" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--
+        @mbggenerated
+        -->
+        id, user_id, order_code, contract_time, predict_time, contract_money, status, manager_id,
+        requirement_product_id, house_type_id, fit_rule_id, createTime, payTime
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--
+        @mbggenerated
+        -->
+        select
+        <include refid="Base_Column_List" />
+        from t_fit_order
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--
+        @mbggenerated
+        -->
+        delete from t_fit_order
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="org.chaoxuan.zeus.model.FitOrder">
+        <!--
+        @mbggenerated
+        -->
+        insert into t_fit_order (id, user_id, order_code,
+        contract_time, predict_time, contract_money,
+        status, manager_id, requirement_product_id,
+        house_type_id, fit_rule_id, createTime,
+        payTime)
+        values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{orderCode,jdbcType=VARCHAR},
+        #{contractTime,jdbcType=TIMESTAMP}, #{predictTime,jdbcType=TIMESTAMP}, #{contractMoney,jdbcType=REAL},
+        #{status,jdbcType=INTEGER}, #{managerId,jdbcType=INTEGER}, #{requirementProductId,jdbcType=INTEGER},
+        #{houseTypeId,jdbcType=INTEGER}, #{fitRuleId,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP},
+        #{paytime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="org.chaoxuan.zeus.model.FitOrder">
+        <!--
+        @mbggenerated
+        -->
+        insert into t_fit_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="orderCode != null">
+                order_code,
+            </if>
+            <if test="contractTime != null">
+                contract_time,
+            </if>
+            <if test="predictTime != null">
+                predict_time,
+            </if>
+            <if test="contractMoney != null">
+                contract_money,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="managerId != null">
+                manager_id,
+            </if>
+            <if test="requirementProductId != null">
+                requirement_product_id,
+            </if>
+            <if test="houseTypeId != null">
+                house_type_id,
+            </if>
+            <if test="fitRuleId != null">
+                fit_rule_id,
+            </if>
+            <if test="createtime != null">
+                createTime,
+            </if>
+            <if test="paytime != null">
+                payTime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="orderCode != null">
+                #{orderCode,jdbcType=VARCHAR},
+            </if>
+            <if test="contractTime != null">
+                #{contractTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="predictTime != null">
+                #{predictTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="contractMoney != null">
+                #{contractMoney,jdbcType=REAL},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="managerId != null">
+                #{managerId,jdbcType=INTEGER},
+            </if>
+            <if test="requirementProductId != null">
+                #{requirementProductId,jdbcType=INTEGER},
+            </if>
+            <if test="houseTypeId != null">
+                #{houseTypeId,jdbcType=INTEGER},
+            </if>
+            <if test="fitRuleId != null">
+                #{fitRuleId,jdbcType=INTEGER},
+            </if>
+            <if test="createtime != null">
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="paytime != null">
+                #{paytime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="org.chaoxuan.zeus.model.FitOrder">
+        <!--
+        @mbggenerated
+        -->
+        update t_fit_order
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="orderCode != null">
+                order_code = #{orderCode,jdbcType=VARCHAR},
+            </if>
+            <if test="contractTime != null">
+                contract_time = #{contractTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="predictTime != null">
+                predict_time = #{predictTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="contractMoney != null">
+                contract_money = #{contractMoney,jdbcType=REAL},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="managerId != null">
+                manager_id = #{managerId,jdbcType=INTEGER},
+            </if>
+            <if test="requirementProductId != null">
+                requirement_product_id = #{requirementProductId,jdbcType=INTEGER},
+            </if>
+            <if test="houseTypeId != null">
+                house_type_id = #{houseTypeId,jdbcType=INTEGER},
+            </if>
+            <if test="fitRuleId != null">
+                fit_rule_id = #{fitRuleId,jdbcType=INTEGER},
+            </if>
+            <if test="createtime != null">
+                createTime = #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="paytime != null">
+                payTime = #{paytime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="org.chaoxuan.zeus.model.FitOrder">
+        <!--
+        @mbggenerated
+        -->
+        update t_fit_order
+        set user_id = #{userId,jdbcType=INTEGER},
+        order_code = #{orderCode,jdbcType=VARCHAR},
+        contract_time = #{contractTime,jdbcType=TIMESTAMP},
+        predict_time = #{predictTime,jdbcType=TIMESTAMP},
+        contract_money = #{contractMoney,jdbcType=REAL},
+        status = #{status,jdbcType=INTEGER},
+        manager_id = #{managerId,jdbcType=INTEGER},
+        requirement_product_id = #{requirementProductId,jdbcType=INTEGER},
+        house_type_id = #{houseTypeId,jdbcType=INTEGER},
+        fit_rule_id = #{fitRuleId,jdbcType=INTEGER},
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+        payTime = #{paytime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <resultMap type="org.chaoxuan.zeus.model.FitOrderExtend" id="OrderResultMap">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="user_id" jdbcType="INTEGER" property="userId" />
+        <result column="order_code" jdbcType="VARCHAR" property="orderCode" />
+        <result column="contract_time" jdbcType="TIMESTAMP" property="contractTime" />
+        <result column="predict_time" jdbcType="TIMESTAMP" property="predictTime" />
+        <result column="contract_money" jdbcType="REAL" property="contractMoney" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="username" jdbcType="VARCHAR" property="userName"/>
+    </resultMap>
+    <!-- 根据条件查询订单信息 -->
+    <select id="getFitOrderInfo" parameterType="org.chaoxuan.zeus.model.FitOrderExtend" resultMap="OrderResultMap">
+        select
+        f.id,
+        f.user_id,
+        o.username,
+        f.order_code,
+        f.contract_time,
+        f. predict_time,
+        f.contract_money,
+        f.status
+        from t_fit_order f
+        LEFT JOIN
+        t_owner_info o
+        ON
+        f.user_id  = o.id
+        <where>
+            <!--根据用户名模糊查询-->
+            <if test="userName !=null and userName !=''">
+                AND o.username like '%${userName}%'
+            </if>
+            <!--按状态查询 -->
+            <if test="status != null and status != ''">
+                AND f.status = #{status}
+            </if>
+            <!--合同金额查询 -->
+            <if test="contractMoney != null and contractMoney != ''">
+                AND f.contract_Money = #{contractMoney}
+            </if>
+            <if test="orderCode != null and orderCode != ''">
+                AND f.order_Code = #{orderCode}
+            </if>
+            <if test="userId != null and userId  != ''">
+                AND f.user_id  = #{userId }
+            </if>
+
+            <!--按签约时间查询 -->
+            <if test="startContractTime!=null and endContractTime == null" >
+                and f.contract_time  like '%${startContractTime}%'
+            </if>
+
+            <if test="endContractTime!=null and startContractTime == null" >
+                and f.contract_time like '%${endContractTime}%'
+            </if>
+
+            <if test="startContractTime!=null and endContractTime!=null">
+                and f.contract_time between #{startContractTime} and #{endContractTime}
+            </if>
+            <!--按完工时间查寻 -->
+            <if test=" startPredictTime!=null and  epTime == null" >
+                and  f.predict_time like '%${startPredictTime}%'
+            </if>
+
+            <if test=" epTime!=null and  startPredictTime == null" >
+                and f.predict_time  like '%${epTime}%'
+            </if>
+
+            <if test="startPredictTime!=null and epTime!=null">
+                and f.predict_time between #{startPredictTime} and #{epTime}
+            </if>
+        </where>
+    </select>
+
+    <resultMap type="org.chaoxuan.zeus.model.FitOrderExtend" id="Orderinfo">
+        <id column="fid" property="id" />
+        <result column="contract_time" property="contractTime" />
+        <result column="payTime"  property="paytime" />
+        <result column="order_code"  property="orderCode" />
+        <result column="createtime"  property="createtime" />
+        <!-- 一个订单对应一个业主  -->
+        <association property="ownerInfo" javaType="org.chaoxuan.zeus.model.OwnerInfo">
+            <id column="oid"  property="id"></id>
+            <result column="username"  property="userName"/>
+            <association property="msOrder" javaType="org.chaoxuan.zeus.model.MeasureOrder">
+                <id column="mid"  property="id"></id>
+                <result column="measuredate" property="measureDate"></result>
+            </association>
+        </association>
+    </resultMap>
+    <select id="getOrderInfo" parameterType="int" resultMap="Orderinfo">
+        select
+        f.id fid,
+        o.id oid,
+        m.id mid,
+        f.order_code,
+        f.createtime,
+        f.contract_time,
+        f.payTime,
+        o.username,
+        m.measuredate
+        FROM t_fit_order f
+        LEFT JOIN
+        t_owner_info o
+        on f.user_id = o .id
+        LEFT JOIN
+        t_measure_order m
+        on o.id = m.userid
+        where f.id = #{id}
+
+    </select>
+    <resultMap type="org.chaoxuan.zeus.model.FitOrderExtend" id="baseinfo">
+        <id column="fid" property="id"/>
+        <association property="ownerInfo" javaType="org.chaoxuan.zeus.model.OwnerInfo">
+            <id column="oid" property="id"/>
+            <result column="username" property="userName"/>
+            <result column="userid" property="userId"/>
+            <!-- 一个业主对应一个业主家庭详情 -->
+            <association property="ownerHomeInfo" javaType="org.chaoxuan.zeus.model.OwnerHomeInfo">
+                <id column="hid" property="id"/>
+                <result column="userid" property="userId"/>
+                <result column="address" property="address"/>
+                <result column="budget" property="budget"/>
+                <result column="basefit" property="baseFit"/>
+                <result column="furandapp" property="furAndApp"/>
+                <result column="softfit" property="softFit"/>
+                <result column="loves" property="loves"/>
+                <result column="person" property="person"/>
+                <result column="remarks" property="remarks"/>
+                <result column="area" property="area"/>
+                <result column="housedesc" property="houseDesc"/>
+            </association>
+        </association>
+    </resultMap>
+    <select id="getBaseInfo" parameterType="int" resultMap="baseinfo">
+        select
+        f.id fid,
+        o.id oid,
+        h.id hid,
+        h.address,
+        h.budget,
+        h.basefit,
+        h.furandapp,
+        h.softfit,
+        h.person,
+        h.remarks,
+        h.loves,
+        h.area,
+        h.housedesc
+        FROM
+        t_fit_order f
+        LEFT JOIN
+        t_owner_info o
+        on f.user_id = o .id
+        LEFT JOIN
+        t_owner_home_info h
+        on
+        o.id = h.userid
+        where f.id = #{id}
+
+    </select>
+    <resultMap id="sendOrderResultMap" type="org.chaoxuan.zeus.model.SendOrder">
+        <result column="order_id" property="orderId"/>
+        <result column="owner_name" property="ownerName"/>
+        <result column="manager_id" property="managerId"/>
+        <result column="manager_name" property="managerName"/>
+        <result column="create_time" property="createTime"/>
+        <result column="arrival_time" property="arrivalTime"/>
+        <result column="photo" property="managerPhoto"/>
+        <result column="worker_title" property="workerTitle"/>
+        <result column="worker_count" property="workerCount"/>
+        <result column="status" property="status"/>
+        <result column="fit_task_id" property="fitTaskId"/>
+        <result column="requirement_id" property="requirementId"/>
+    </resultMap>
+    <select id="sendOrderSearch" parameterType="org.chaoxuan.zeus.model.SendOrder"
+            resultMap="sendOrderResultMap">
+        SELECT odr.id order_id,odr.order_code orderCode,own.username owner_name,man.id manager_id,
+        man.name manager_name,req.place_order_time create_time,req.worker_arrival_time arrival_time
+        ,man.photo photo,req.title worker_title,req.worker_quantity worker_count,
+        req.status status,req.fit_task_id,req.id requirement_id
+        FROM t_fit_order odr LEFT JOIN
+        t_owner_info own ON odr.user_id=own.id JOIN
+        t_fit_manager man ON odr.manager_id=man.id JOIN
+        t_fit_task_instance ins ON ins.fit_order_id=odr.id JOIN
+        t_requirement_worker req ON req.fit_task_id=ins.id
+        WHERE 1=1
+        <if test="orderId!=null and orderId !=''">
+            and odr.id=#{orderId}
+        </if>
+        <if test="status!=null and status !=''">
+            and odr.status=#{status}
+        </if>
+        <if test="managerId!=null and managerId !=''">
+            and man.id=#{managerId}
+        </if>
+        <if test="managerName!=null and managerName !=''">
+            and man.name LIKE '%${managerName}%'
+        </if>
+        <if test="ownerName!=null and ownerName !=''">
+            and own.username LIKE '%${ownerName}%'
+        </if>
+        <if test="createTime!=null ">
+            and req.place_order_time &gt;=#{createTime}
+        </if>
+        <if test="createTimeEnd!=null">
+            and req.place_order_time &lt;=#{createTimeEnd}
+        </if>
+        <if test="arrivalTime!=null ">
+            and req.worker_arrival_time &gt;=#{arrivalTime}
+        </if>
+        <if test="arrivalTimeEnd!=null">
+            and req.worker_arrival_time  &lt;=#{arrivalTimeEnd}
+        </if>
+        <if test="start!=null and rowCount !=null and rowCount !=''">
+            limit #{start},#{rowCount}
+        </if>
+    </select>
+    <select id="sendOrderSearchCount" parameterType="org.chaoxuan.zeus.model.SendOrder" resultType="int">
+        SELECT count(*)
+        FROM t_fit_order odr JOIN
+        t_owner_info own ON odr.user_id=own.id JOIN
+        t_fit_manager man ON odr.manager_id=man.id
+        where 1=1
+        <if test="orderId!=null and orderId !=''">
+            and odr.id=#{orderId}
+        </if>
+        <if test="status!=null and status !=''">
+            and odr.status=#{status}
+        </if>
+        <if test="managerId!=null and managerId !=''">
+            and man.id=#{managerId}
+        </if>
+        <if test="managerName!=null and managerName !=''">
+            and man.name LIKE '%${managerName}%'
+        </if>
+        <if test="ownerName!=null and ownerName !=''">
+            and own.username LIKE '%${ownerName}%'
+        </if>
+        <if test="createTime!=null ">
+            and odr.createTime &gt;=#{createTime}
+        </if>
+        <if test="createTimeEnd!=null">
+            and odr.createTime &lt;=#{createTimeEnd}
+        </if>
+    </select>
+    <select id="getSendOrderDetailById" parameterType="int" resultMap="sendOrderResultMap">
+        SELECT
+        odr.id order_id,own.username owner_name,man.id manager_id,
+        man.name manager_name,odr.createTime create_time,odr.predict_time arrival_time
+        ,odr.status status,man.photo photo
+        FROM t_fit_order odr JOIN t_owner_info own ON own.id=odr.user_id
+        JOIN t_fit_manager man ON man.id=odr.manager_id
+        WHERE odr.id=#{id}
+    </select>
+</mapper>

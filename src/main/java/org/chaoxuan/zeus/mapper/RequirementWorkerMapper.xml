@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.chaoxuan.zeus.dao.RequirementWorkerMapper">
+    <resultMap id="BaseResultMap" type="org.chaoxuan.zeus.model.RequirementWorker">
+        <!--
+        @mbggenerated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="worker_quantity" jdbcType="INTEGER" property="workerQuantity"/>
+        <result column="working_days" jdbcType="INTEGER" property="workingDays"/>
+        <result column="place_order_time" jdbcType="TIMESTAMP" property="placeOrderTime"/>
+        <result column="worker_arrival_time" jdbcType="TIMESTAMP" property="workerArrivalTime"/>
+        <result column="work_progress" jdbcType="INTEGER" property="workProgress"/>
+        <result column="fit_task_id" jdbcType="INTEGER" property="fitTaskId"/>
+        <result column="fit_order_id" jdbcType="INTEGER" property="fitOrderId"/>
+        <result column="state" jdbcType="INTEGER" property="state"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+    </resultMap>
+    <resultMap id="BaseResultMapWithTask" type="org.chaoxuan.zeus.model.RequirementWorkerWithTask"
+               extends="BaseResultMap">
+        <result column="quota_area" jdbcType="VARCHAR" property="quotaArea"/>
+        <result column="work_amount" jdbcType="INTEGER" property="workAmount"/>
+        <result column="task_start_time" jdbcType="DATE" property="taskStartTime"/>
+        <result column="task_check_time" jdbcType="DATE" property="taskCheckTime"/>
+        <result column="fit_task_id" jdbcType="DATE" property="fitTaskId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--
+        @mbggenerated
+        -->
+        id, title, worker_quantity, working_days, place_order_time, worker_arrival_time,
+        work_progress, fit_task_id
+    </sql>
+    <sql id="Base_Column_List_Poor">
+        <!--
+        @mbggenerated
+        -->
+        worker_quantity, working_days, place_order_time, worker_arrival_time,
+        work_progress
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--
+        @mbggenerated
+        -->
+        select
+        <include refid="Base_Column_List"/>
+        from t_requirement_worker
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="searchByTaskInstanceId" parameterType="int" resultMap="BaseResultMap">
+    SELECT * from t_requirement_worker where fit_task_id =#{id}
+  </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--
+        @mbggenerated
+        -->
+        delete from t_requirement_worker
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="org.chaoxuan.zeus.model.RequirementWorker">
+        <!--
+        @mbggenerated
+        -->
+        insert into t_requirement_worker (id, title, worker_quantity,
+        working_days, place_order_time, worker_arrival_time,
+        work_progress, fit_task_id)
+        values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{workerQuantity,jdbcType=INTEGER},
+        #{workingDays,jdbcType=INTEGER}, #{placeOrderTime,jdbcType=TIMESTAMP}, #{workerArrivalTime,jdbcType=TIMESTAMP},
+        #{workProgress,jdbcType=INTEGER}, #{fitTaskId,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" parameterType="org.chaoxuan.zeus.model.RequirementWorker">
+        <!--
+        @mbggenerated
+        -->
+        insert into t_requirement_worker
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="workerQuantity != null">
+                worker_quantity,
+            </if>
+            <if test="workingDays != null">
+                working_days,
+            </if>
+            <if test="placeOrderTime != null">
+                place_order_time,
+            </if>
+            <if test="workerArrivalTime != null">
+                worker_arrival_time,
+            </if>
+            <if test="workProgress != null">
+                work_progress,
+            </if>
+            <if test="fitTaskId != null">
+                fit_task_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="workerQuantity != null">
+                #{workerQuantity,jdbcType=INTEGER},
+            </if>
+            <if test="workingDays != null">
+                #{workingDays,jdbcType=INTEGER},
+            </if>
+            <if test="placeOrderTime != null">
+                #{placeOrderTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="workerArrivalTime != null">
+                #{workerArrivalTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="workProgress != null">
+                #{workProgress,jdbcType=INTEGER},
+            </if>
+            <if test="fitTaskId != null">
+                #{fitTaskId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="org.chaoxuan.zeus.model.RequirementWorker">
+        <!--
+        @mbggenerated
+        -->
+        update t_requirement_worker
+        <set>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="workerQuantity != null">
+                worker_quantity = #{workerQuantity,jdbcType=INTEGER},
+            </if>
+            <if test="workingDays != null">
+                working_days = #{workingDays,jdbcType=INTEGER},
+            </if>
+            <if test="placeOrderTime != null">
+                place_order_time = #{placeOrderTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="workerArrivalTime != null">
+                worker_arrival_time = #{workerArrivalTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="workProgress != null">
+                work_progress = #{workProgress,jdbcType=INTEGER},
+            </if>
+            <if test="fitTaskId != null">
+                fit_task_id = #{fitTaskId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="org.chaoxuan.zeus.model.RequirementWorker">
+        <!--
+        @mbggenerated
+        -->
+        update t_requirement_worker
+        set title = #{title,jdbcType=VARCHAR},
+        worker_quantity = #{workerQuantity,jdbcType=INTEGER},
+        working_days = #{workingDays,jdbcType=INTEGER},
+        place_order_time = #{placeOrderTime,jdbcType=TIMESTAMP},
+        worker_arrival_time = #{workerArrivalTime,jdbcType=TIMESTAMP},
+        work_progress = #{workProgress,jdbcType=INTEGER},
+        fit_task_id = #{fitTaskId,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="upadateWorkStatus" parameterType="int">
+        update t_requirement_worker set status=2 where id = #{id}
+    </update>
+    <select id="searchByOrderIds" resultMap="BaseResultMap" parameterType="Map">
+        SELECT
+        <include refid="Base_Column_List_Poor"/>
+        ,req.id id,req.title title,req.fit_task_id fit_task_id,task.fit_order_id fit_order_id
+        FROM t_fit_task_instance task JOIN
+        t_requirement_worker req ON task.id=req.fit_task_id
+        WHERE 1=1
+        and
+        fit_order_id IN
+        <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        <if test="sendOrder.arrivalTime!=null ">
+            and req.worker_arrival_time &gt;=#{sendOrder.arrivalTime}
+        </if>
+        <if test="sendOrder.arrivalTimeEnd!=null ">
+            and req.worker_arrival_time &lt;= #{sendOrder.arrivalTimeEnd}
+        </if>
+    </select>
+    <select id="getWithTaskById" parameterType="int" resultMap="BaseResultMapWithTask">
+        SELECT req.title,req.worker_quantity,task.quota_area,
+        task.work_amount,req.working_days,req.place_order_time,
+        task.task_start_time,task.task_check_time,task.id fit_task_id
+        FROM t_requirement_worker req JOIN t_fit_task_instance task
+        ON task.id=req.fit_task_id
+        WHERE req.id=#{id}
+    </select>
+    <select id="getRemainCountById" parameterType="int" resultType="int">
+      SELECT (
+      worker_quantity-(SELECT COUNT(*)  FROM t_worker_task WHERE requirement_id=#{id})
+      ) AS remain FROM t_requirement_worker
+      WHERE id=#{id}
+
+
+    </select>
+</mapper>

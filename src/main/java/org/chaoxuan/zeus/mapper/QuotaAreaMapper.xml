@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.chaoxuan.zeus.dao.QuotaAreaMapper">
+	<resultMap id="BaseResultMap" type="org.chaoxuan.zeus.model.QuotaArea">
+		<!-- @mbggenerated -->
+		<id column="id" property="id" />
+		<result column="area" property="area" />
+		<result column="upper_limit" property="upperLimit" />
+		<result column="lower_limit" property="lowerLimit" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		<!-- @mbggenerated -->
+		id, area, upper_limit, lower_limit
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		<!-- @mbggenerated -->
+		select
+		<include refid="Base_Column_List" />
+		from t_quota_area
+		where id = #{id}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		<!-- @mbggenerated -->
+		delete from t_quota_area
+		where id = #{id}
+	</delete>
+	<insert id="insert" parameterType="org.chaoxuan.zeus.model.QuotaArea">
+		<!-- @mbggenerated -->
+		insert into t_quota_area (id, area, upper_limit,
+		lower_limit)
+		values (#{id}, #{area}, #{upperLimit},
+		#{lowerLimit})
+	</insert>
+	<insert id="insertSelective" parameterType="org.chaoxuan.zeus.model.QuotaArea">
+		<!-- @mbggenerated -->
+		insert into t_quota_area
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="area != null">
+				area,
+			</if>
+			<if test="upperLimit != null">
+				upper_limit,
+			</if>
+			<if test="lowerLimit != null">
+				lower_limit,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="area != null">
+				#{area},
+			</if>
+			<if test="upperLimit != null">
+				#{upperLimit},
+			</if>
+			<if test="lowerLimit != null">
+				#{lowerLimit},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="org.chaoxuan.zeus.model.QuotaArea">
+		<!-- @mbggenerated -->
+		update t_quota_area
+		<set>
+			<if test="area != null">
+				area = #{area},
+			</if>
+			<if test="upperLimit != null">
+				upper_limit = #{upperLimit},
+			</if>
+			<if test="lowerLimit != null">
+				lower_limit = #{lowerLimit},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="org.chaoxuan.zeus.model.QuotaArea">
+		<!-- @mbggenerated -->
+		update t_quota_area
+		set area = #{area},
+		upper_limit = #{upperLimit},
+		lower_limit = #{lowerLimit}
+		where id = #{id}
+	</update>
+	
+	<select id="findByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select 
+			<include refid="Base_Column_List"/>
+		from 
+			t_quota_area		
+	</select>
+	
+</mapper>

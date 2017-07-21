@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.chaoxuan.zeus.dao.MeasureOrderMapper">
+  <sql id="Base_Column_List">
+    t_measure_order.id,
+    t_measure_order.measureOrderId,
+    t_owner_info.userName,
+    t_owner_info.userId,
+    t_measure_order.sigDate,
+    t_measure_order.finDate,
+    t_measure_order.amMoney,
+    t_measure_order.statuOrder
+  </sql>
+
+  <!--sql片段根据条件查询-->
+  <sql id="mysql1">
+    <!--根据主键id查询 -->
+
+    <!--根据用户名模糊查询-->
+    <if test="id !=null">
+      AND t_measure_order.id = #{id}
+    </if>
+    <if test="userName !=null and userName !=''">
+      AND t_owner_info.userName like '%${userName}%'
+    </if>
+
+    <if test="statuOrder != null and statuOrder != ''">
+      AND statuOrder = #{measureOrder.statuOrder}
+    </if>
+    <if test="amMoney != null and amMoney != ''">
+      AND amMoney = #{amMoney}
+    </if>
+    <if test="measureOrderId != null and measureOrderId != ''">
+      AND measureOrderId = #{measureOrderId}
+    </if>
+
+    <!--按签约时间查询 -->
+    <if test="sigStartDate!=null and sigEndDate == null" >
+      and sigDate = #{sigStartDate}
+    </if>
+
+    <if test="sigEndDate!=null and sigStartDate == null" >
+      and sigEndDate = #{sigEndDate}
+    </if>
+
+    <if test="sigStartDate!=null and sigEndDate!=null">
+      and sigDate between #{sigStartDate} and #{sigEndDate}
+    </if>
+    <!--按完工时间查询 -->
+    <if test=" finStartDate!=null and  finEndDate == null" >
+      and  finDate = #{ finStartDate}
+    </if>
+
+    <if test=" finEndDate!=null and  finStartDate == null" >
+      and finEndDate = #{finEndDate}
+    </if>
+
+    <if test="finStartDate!=null and finEndDate!=null">
+      and finDate between #{finStartDate} and #{finEndDate}
+    </if>
+  </sql>
+  <!-- 查询测量订单及其业主信息 -->
+  <resultMap type="org.chaoxuan.zeus.model.MeasureOrderExtend" id="orderAndOwnerMap">
+    <id column="id" property="id"/>
+    <result column="measureOrderId" property="measureOrderId"/>
+    <result column="sigDate" property="sigDate"/>
+    <result column="finDate" property="finDate"/>
+    <result column="amMoney" property="amMoney" />
+    <result column="statuOrder" property="statuOrder"/>
+    <!-- 一个订单对应一个业主  -->
+    <association property="ownerInfo" javaType="org.chaoxuan.zeus.model.OwnerInfo">
+      <id column="id" property="id"></id>
+      <result column="userName" property="userName"/>
+      <result column="userId" property="userId"/>
+    </association>
+  </resultMap>
+  <select id="getMeasureOrder" parameterType="org.chaoxuan.zeus.model.MeasureOrderExtend" resultType="org.chaoxuan.zeus.model.MeasureOrderExtend">
+    select
+    m.id,
+    m.measureOrderId,
+    o.userName,
+    o.userId userPhone,
+    m.sigDate,
+    m.finDate,
+    m.amMoney,
+    m.statuOrder
+    from t_measure_order m
+    LEFT  JOIN
+    t_owner_info o
+    ON
+    m.userId = o.id
+    <where>
+      <!--根据用户名模糊查询-->
+      <if test="userName !=null and userName !=''">
+        AND o.userName like '%${userName}%'
+      </if>
+
+      <if test="statuOrder != null and statuOrder != ''">
+        AND m.statuOrder = #{statuOrder}
+      </if>
+      <if test="amMoney != null and amMoney != ''">
+        AND m.amMoney = #{amMoney}
+      </if>
+      <if test="measureOrderId != null and measureOrderId != ''">
+        AND  m.measureOrderId = #{measureOrderId}
+      </if>
+
+      <!-- 按签约时间查询 -->
+      <if test="sigStartDate!=null and sigEndDate == null" >
+        and m.sigDate  like '%${sigStartDate}%'
+      </if>
+
+      <if test="sigEndDate!=null and sigStartDate == null" >
+        and m.sigDate  like '%${sigEndDate}%'
+      </if>
+
+      <if test="sigStartDate!=null and sigEndDate!=null">
+        and m.sigDate between #{sigStartDate} and #{sigEndDate}
+      </if>
+      <!--按完工时间查询 -->
+      <if test=" finStartDate!=null and  finEndDate == null" >
+        and  m.finDate  like '%${finStartDate}%'
+      </if>
+
+      <if test=" finEndDate!=null and  finStartDate == null" >
+        and m.finDate like '%${finEndDate}%'
+      </if>
+
+      <if test="finStartDate!=null and finEndDate!=null">
+        and m.finDate between #{finStartDate} and #{finEndDate}
+      </if>
+    </where>
+  </select>
+
+  <resultMap type="org.chaoxuan.zeus.model.MeasureOrder" id="orderAndOwnerDesc">
+    <id column="id" property="id"/>
+    <result column="measureOrderId" property="measureOrderId"/>
+    <result column="sigDate" property="sigDate"/>
+    <result column="statuOrder" property="statuOrder"/>
+    <result column="measureDate" property="measureDate"/>
+    <result column="createTime" property="createTime"/>
+    <result column="payTime" property="payTime"/>
+    <!-- 一个测量订单对应一个用户 -->
+    <association property="ownerInfo" javaType="org.chaoxuan.zeus.model.OwnerInfo">
+      <id column="id" property="id"/>
+      <result column="userName" property="userName"/>
+      <result column="userId" property="userId"/>
+      <result column="fitcreateTime" property="fitcreateTime"></result>
+      <!-- 一个业主对应一个业主家庭详情 -->
+      <association property="ownerHomeInfo" javaType="org.chaoxuan.zeus.model.OwnerHomeInfo">
+        <id column="id" property="id"/>
+        <result column="userId" property="userId"/>
+        <result column="community" property="community"/>
+        <result column="street" property="street"/>
+        <result column="address" property="address"/>
+        <result column="budget" property="budget"/>
+        <result column="baseFit" property="baseFit"/>
+        <result column="furAndApp" property="furAndApp"/>
+        <result column="softFit" property="softFit"/>
+        <result column="loves" property="loves"/>
+        <result column="person" property="person"/>
+        <result column="remarks" property="remarks"/>
+        <result column="area" property="area"/>
+        <result column="houseDesc" property="houseDesc"/>
+      </association>
+    </association>
+  </resultMap>
+
+  <!-- 根据装修订单id查询装修订单，业主及业主家庭信息 -->
+  <select id="getMeasureOrderDesc" parameterType="int" resultMap="orderAndOwnerDesc">
+    select
+    m.measureOrderId,
+    m.sigDate,
+    m.statuOrder,
+    m.measureDate,
+    m.createTime,
+    m.payTime,
+    o.userName,
+    o.userId oid,
+    h.userId hid,
+    h.address,
+    h.street,
+    h.community,
+    h.budget,
+    h.baseFit,
+    h.furAndApp,
+    h.softFit,
+    h.person,
+    h.remarks,
+    h.loves,
+    h.area,
+    h.houseDesc,
+    f.createTime fitcreateTime
+    from t_measure_order m
+    left join
+    t_owner_info o
+    on
+    m.userId = o.id
+    left join t_owner_home_info h
+    on
+    o.id = h.userId
+    left join
+    t_fit_order f
+    on f.user_id = o.id
+    where m.id = #{id}
+  </select>
+
+  <resultMap type="org.chaoxuan.zeus.model.OwnerInfo" id="OrderAndLogDesc">
+    <id column="id" property="id"/>
+    <result column="userName" property="userName"/>
+    <result column="userId" property="userId"/>
+    <association property="ownerHomeInfo" javaType="org.chaoxuan.zeus.model.OwnerHomeInfo">
+      <id column="id" property="id"/>
+      <result column="address" property="address"/>
+    </association>
+    <association property="msOrder" javaType="org.chaoxuan.zeus.model.MeasureOrder">
+      <id column="id" property="id"/>
+      <result column="measureOrderId" property="measureOrderId"/>
+      <result column="sigDate" property="sigDate"/>
+      <result column="statuOrder" property="statuOrder"/>
+      <result column="measureDate" property="measureDate"/>
+      <result column="payTime" property="payTime"/>
+      <association property="fitManager" javaType="org.chaoxuan.zeus.model.FitManager" >
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="phone" property="phone"/>
+        <!-- 管家的操作日志信息 -->
+        <collection property="fitLog" javaType="org.chaoxuan.zeus.model.FitLog">
+          <id column="id" property="id"/>
+          <result column="machinedesc" property="machineDesc"/>
+          <result column="machineresult" property="machineResult"/>
+        </collection>
+      </association>
+    </association>
+
+  </resultMap>
+  <select id="getMeasureOrderLog" parameterType="int" resultMap="OrderAndLogDesc">
+    select
+    m.id,
+    m.measureOrderId,
+    m.sigDate,
+    m.statuOrder,
+    m.measureDate,
+    m.payTime,
+    o.userName,
+    o.userId,
+    f.name,
+    f.phone,
+    l.machinedesc,
+    l.machineresult,
+    h.address
+    from t_owner_info o
+    LEFT JOIN
+    t_measure_order m
+    on o.id = m.userId
+    LEFT JOIN
+    t_fit_manager f
+    ON m.fitManagerId = f.id
+    LEFT JOIN
+    t_fit_log l
+    ON f.id = l.machid
+    LEFT JOIN
+    t_owner_home_info h
+    ON h.userId = o.id
+    where m.id=#{id}
+  </select>
+
+  <!-- 修改测量时间 -->
+  <update id="updateMeasure" parameterType="org.chaoxuan.zeus.model.MeasureOrder">
+    update t_measure_order set measureDate = #{measureDate}
+    where id = #{id}
+  </update>
+
+  <!-- 查询管家  -->
+  <select id="getManager" parameterType="org.chaoxuan.zeus.model.FitManager" resultType="org.chaoxuan.zeus.model.FitManager">
+    select id,name,phone,managerarea from t_fit_manager
+    <where>
+      <if test="managerArea!=null and managerArea!=''">
+        AND managerarea = #{managerArea}
+      </if>
+    </where>
+  </select>
+
+  <!-- 更换管家 -->
+  <update id="updateManager" parameterType="org.chaoxuan.zeus.model.MeasureOrder">
+    update t_measure_order set fitManagerId = #{fitManagerId}
+    where id = #{id}
+  </update>
+  <insert id="insertSelective" parameterType="org.chaoxuan.zeus.model.MeasureOrder">
+    <!--
+        @mbggenerated
+        -->
+    insert into t_measure_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        userId,
+      </if>
+      <if test="measureOrderId != null">
+        measureOrderId,
+      </if>
+      <if test="sigDate != null">
+        sigDate,
+      </if>
+      <if test="finDate != null">
+        finDate,
+      </if>
+      <if test="amMoney != null">
+        amMoney,
+      </if>
+      <if test="statuOrder != null">
+        statuOrder,
+      </if>
+      <if test="measureDate != null">
+        measureDate,
+      </if>
+      <if test="fitManagerId != null">
+        fitManagerId,
+      </if>
+      <if test="payTime != null">
+        payTime,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="measureOrderId != null">
+        #{measureOrderId,jdbcType=INTEGER},
+      </if>
+      <if test="sigDate != null">
+        #{sigDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finDate != null">
+        #{finDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="amMoney != null">
+        #{amMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="statuOrder != null">
+        #{statuOrder,jdbcType=INTEGER},
+      </if>
+      <if test="measureDate != null">
+        #{measureDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fitManagerId != null">
+        #{fitManagerId,jdbcType=INTEGER},
+      </if>
+      <if test="payTime != null">
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+</mapper>

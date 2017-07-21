@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.2.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+        ">
+    <mvc:annotation-driven>
+        <!-- 消息转换器 -->
+        <mvc:message-converters register-defaults="true">
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>text/html;charset=UTF-8</value>
+                        <value>text/plain;charset=UTF-8</value>
+                        <value>application/json;charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <!-- 配置静态资源访问 -->
+    <mvc:default-servlet-handler/>
+    <!-- 扫描注解配置的包 -->
+    <context:component-scan base-package="org.chaoxuan.zeus.controller"/>
+    <!-- 默认的注解映射的支持 -->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+        <!-- 配置视图层 使用jstl标签 -->
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <!-- 定义视图前缀格式 -->
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <!-- 定义视图后缀格式 -->
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    <mvc:resources mapping="/static/**" location="/WEB-INF/static/"/>
+
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding">
+            <value>UTF-8</value>
+        </property>
+        <property name="maxUploadSize">
+            <value>104857600</value>
+        </property>
+        <property name="maxInMemorySize">
+            <value>4096</value>
+        </property>
+    </bean>
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/worker_operate/*"/>
+            <bean class="org.chaoxuan.zeus.interceptor.WorkerInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <mvc:cors>
+        <mvc:mapping path="/**" allowed-methods="GET, POST, PUT, DELETE"/>
+    </mvc:cors>
+
+</beans>

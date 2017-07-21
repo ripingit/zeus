@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.chaoxuan.zeus.dao.FitTaskMachineMapper">
+	<resultMap id="BaseResultMap" type="org.chaoxuan.zeus.model.FitTaskMachine">
+		<!-- @mbggenerated -->
+		<id column="id" property="id" />
+		<result column="quota_machine_version_id" property="quotaMachineVersionId" />
+		<result column="fit_task_id" property="fitTaskId" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		<!-- @mbggenerated -->
+		id, quota_machine_version_id, fit_task_id
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		<!-- @mbggenerated -->
+		select
+		<include refid="Base_Column_List" />
+		from t_fit_task_machine
+		where id = #{id}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		<!-- @mbggenerated -->
+		delete from t_fit_task_machine
+		where id = #{id}
+	</delete>
+	<insert id="insert" parameterType="org.chaoxuan.zeus.model.FitTaskMachine">
+		<!-- @mbggenerated -->
+		insert into t_fit_task_machine (id, quota_machine_version_id, fit_task_id
+		)
+		values (#{id}, #{quotaMachineVersionId}, #{fitTaskId}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="org.chaoxuan.zeus.model.FitTaskMachine">
+		<!-- @mbggenerated -->
+		insert into t_fit_task_machine
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="quotaMachineVersionId != null">
+				quota_machine_version_id,
+			</if>
+			<if test="fitTaskId != null">
+				fit_task_id,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="quotaMachineVersionId != null">
+				#{quotaMachineVersionId},
+			</if>
+			<if test="fitTaskId != null">
+				#{fitTaskId},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="org.chaoxuan.zeus.model.FitTaskMachine">
+		<!-- @mbggenerated -->
+		update t_fit_task_machine
+		<set>
+			<if test="quotaMachineVersionId != null">
+				quota_machine_version_id = #{quotaMachineVersionId},
+			</if>
+			<if test="fitTaskId != null">
+				fit_task_id = #{fitTaskId},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="org.chaoxuan.zeus.model.FitTaskMachine">
+		<!-- @mbggenerated -->
+		update t_fit_task_machine
+		set quota_machine_version_id = #{quotaMachineVersionId},
+		fit_task_id = #{fitTaskId}
+		where id = #{id}
+	</update>
+	
+	<!-- 批量插入 By Yurnero -->
+	<insert id="insertBatch" parameterType="java.util.List">
+		insert into t_fit_task_machine (quota_machine_version_id, fit_task_id)
+		values
+		<foreach collection="list" item="fitTaskMachine" separator=",">
+			(#{fitTaskMachine.quotaMachineVersionId}, #{fitTaskMachine.fitTaskId})
+		</foreach>
+	</insert>
+	
+	<select id="findByMap" parameterType="java.util.Map" resultMap="findMap">
+		select
+			t1.*,
+			t2.version,
+			t2.unit_price,
+			t2.area,
+			t3.category_id,
+			t3.category_name,
+			t3.unit,
+			t3.title
+		from
+			t_fit_task_machine t1
+		join
+			t_quota_machine_version t2
+		on 
+		 t1.quota_machine_version_id = t2.id
+		join
+			t_quota_machine t3
+		on
+			t2.quota_machine_id = t3.id
+		<where>
+			<if test="fitTaskId != null">
+				and t1.fit_task_id = #{fitTaskId}
+			</if>
+		</where>
+	</select>
+	<resultMap type="org.chaoxuan.zeus.model.FitTaskMachine" id="findMap">
+		<id column="quota_machine_version_id" property="id" />
+		<result column="fit_task_id" property="fitTaskId" />
+		<result column="version" property="version"/>
+		<result column="unit_price" property="unitPrice"/>
+		<result column="area" property="area"/>
+		<result column="category_id" property="categoryId"/>
+		<result column="category_name" property="categoryName"/>
+		<result column="unit" property="unit"/>
+		<result column="title" property="title"/>
+	</resultMap>
+	
+	<delete id="deleteByMap" parameterType="java.util.Map">
+		delete from t_fit_task_machine
+		<where>
+			<if test="fitTaskId != null">
+				and fit_task_id = #{fitTaskId}
+			</if>
+			<if test="quotaMachineVersionIds != null">
+				<foreach collection="quotaMachineVersionIds" item="item" open="and quota_machine_version_id in(" close=")" separator=",">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+	</delete>
+	
+	<select id="findByFitTaskId" parameterType="java.lang.Integer" resultMap="findByFitTaskIdMap">
+		select
+			t1.*,
+			t2.version,
+			t2.unit_price,
+			t2.area,
+			t3.category_id,
+			t3.category_name,
+			t3.unit,
+			t3.title
+		from
+			t_fit_task_machine t1
+		join
+			t_quota_machine_version t2
+		on 
+		 t1.quota_machine_version_id = t2.id
+		join
+			t_quota_machine t3
+		on
+			t2.quota_machine_id = t3.id
+		where
+			t1.fit_task_id = #{fitTaskId}
+	</select>
+	<resultMap type="org.chaoxuan.zeus.model.FitTaskMachine" id="findByFitTaskIdMap" extends="BaseResultMap">
+		<result column="version" property="version"/>
+		<result column="unit_price" property="unitPrice"/>
+		<result column="area" property="area"/>
+		<result column="category_id" property="categoryId"/>
+		<result column="category_name" property="categoryName"/>
+		<result column="unit" property="unit"/>
+		<result column="title" property="title"/>
+	</resultMap>
+	
+</mapper>

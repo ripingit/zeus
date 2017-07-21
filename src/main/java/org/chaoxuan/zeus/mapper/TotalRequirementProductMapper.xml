@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.chaoxuan.zeus.dao.TotalRequirementProductMapper">
+  <resultMap id="BaseResultMap" type="org.chaoxuan.zeus.model.TotalRequirementProduct">
+    <!--
+    @mbggenerated
+    -->
+    <id column="id" property="id" />
+    <result column="category_id" property="categoryId" />
+    <result column="category_name" property="categoryName" />
+    <result column="title" property="title" />
+    <result column="brand" property="brand" />
+    <result column="version" property="version" />
+    <result column="amount" property="amount" />
+    <result column="fit_order_id" property="fitOrderId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+    @mbggenerated
+    -->
+    id, category_id, category_name, title, brand, version, amount, fit_order_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--
+    @mbggenerated
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from t_total_requirement_product
+    where id = #{id}
+  </select>
+  <select id="getByOrderId" resultMap="BaseResultMap" resultType="int">
+    SELECT  * from t_total_requirement_product WHERE fit_order_id=#{id}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--
+    @mbggenerated
+    -->
+    delete from t_total_requirement_product
+    where id = #{id}
+  </delete>
+  <insert id="insert" parameterType="org.chaoxuan.zeus.model.TotalRequirementProduct">
+    <!--
+    @mbggenerated
+    -->
+    insert into t_total_requirement_product (id, category_id, category_name, 
+      title, brand, version, 
+      amount, fit_order_id)
+    values (#{id}, #{categoryId}, #{categoryName}, 
+      #{title}, #{brand}, #{version}, 
+      #{amount}, #{fitOrderId})
+  </insert>
+  <insert id="insertSelective" parameterType="org.chaoxuan.zeus.model.TotalRequirementProduct">
+    <!--
+    @mbggenerated
+    -->
+    insert into t_total_requirement_product
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="categoryId != null">
+        category_id,
+      </if>
+      <if test="categoryName != null">
+        category_name,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="brand != null">
+        brand,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="fitOrderId != null">
+        fit_order_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="categoryId != null">
+        #{categoryId},
+      </if>
+      <if test="categoryName != null">
+        #{categoryName},
+      </if>
+      <if test="title != null">
+        #{title},
+      </if>
+      <if test="brand != null">
+        #{brand},
+      </if>
+      <if test="version != null">
+        #{version},
+      </if>
+      <if test="amount != null">
+        #{amount},
+      </if>
+      <if test="fitOrderId != null">
+        #{fitOrderId},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.chaoxuan.zeus.model.TotalRequirementProduct">
+    <!--
+    @mbggenerated
+    -->
+    update t_total_requirement_product
+    <set>
+      <if test="categoryId != null">
+        category_id = #{categoryId},
+      </if>
+      <if test="categoryName != null">
+        category_name = #{categoryName},
+      </if>
+      <if test="title != null">
+        title = #{title},
+      </if>
+      <if test="brand != null">
+        brand = #{brand},
+      </if>
+      <if test="version != null">
+        version = #{version},
+      </if>
+      <if test="amount != null">
+        amount = #{amount},
+      </if>
+      <if test="fitOrderId != null">
+        fit_order_id = #{fitOrderId},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.chaoxuan.zeus.model.TotalRequirementProduct">
+    <!--
+    @mbggenerated
+    -->
+    update t_total_requirement_product
+    set category_id = #{categoryId},
+      category_name = #{categoryName},
+      title = #{title},
+      brand = #{brand},
+      version = #{version},
+      amount = #{amount},
+      fit_order_id = #{fitOrderId}
+    where id = #{id}
+  </update>
+</mapper>

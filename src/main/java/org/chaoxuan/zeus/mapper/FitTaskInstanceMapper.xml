@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.chaoxuan.zeus.dao.FitTaskInstanceMapper">
+  <resultMap id="BaseResultMap" type="org.chaoxuan.zeus.model.FitTaskInstance">
+    <!--
+    @mbggenerated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id"/>
+    <result column="title" jdbcType="VARCHAR" property="title"/>
+    <result column="fit_order_id" jdbcType="INTEGER" property="fitOrderId"/>
+    <result column="fit_task_id" jdbcType="INTEGER" property="fitTaskId"/>
+    <result column="task_start_time" jdbcType="TIMESTAMP" property="taskStartTime"/>
+    <result column="task_check_time" jdbcType="TIMESTAMP" property="taskCheckTime"/>
+    <result column="task_max_day" jdbcType="INTEGER" property="taskMaxDay"/>
+    <result column="task_min_day" jdbcType="INTEGER" property="taskMinDay"/>
+    <result column="task_actual_day" jdbcType="INTEGER" property="taskActualDay"/>
+    <result column="requirement_machine_id" jdbcType="INTEGER" property="requirementMachineId"/>
+    <result column="requirement_product_id" jdbcType="INTEGER" property="requirementProductId"/>
+    <result column="requirement_worker_id" jdbcType="INTEGER" property="requirementWorkerId"/>
+    <result column="work_amount" jdbcType="INTEGER" property="workAmount"/>
+    <result column="category" jdbcType="INTEGER" property="category"/>
+    <result column="fit_standard_id" jdbcType="INTEGER" property="fitStandardId"/>
+    <result column="phase" jdbcType="INTEGER" property="phase"/>
+    <result column="version" jdbcType="VARCHAR" property="version"/>
+    <result column="sequence" jdbcType="INTEGER" property="sequence"/>
+    <result column="unit" jdbcType="VARCHAR" property="unit"/>
+    <result column="quota_area" jdbcType="VARCHAR" property="quotaArea"/>
+    <result column="complete_flag" jdbcType="INTEGER" property="completeFlag"/>
+    <result column="order_status" javaType="INTEGER" property="status"/>
+    <result column="status" jdbcType="VARCHAR" property="status"/>
+    <result column="username" jdbcType="VARCHAR" property="userName"/>
+    <result column="uid" jdbcType="VARCHAR" property="userId"/>
+    <result column="role" jdbcType="VARCHAR" property="role"/>
+    <result column="street" jdbcType="VARCHAR" property="street"/>
+    <result column="community" jdbcType="VARCHAR" property="community"/>
+    <result column="taskSum" jdbcType="INTEGER" property="taskSum"/>
+
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+    @mbggenerated
+    -->
+    id, title, fit_order_id, fit_task_id, task_start_time, task_check_time, task_max_day,
+    task_min_day, task_actual_day, requirement_machine_id, requirement_product_id, requirement_worker_id,
+    work_amount, category, fit_standard_id, phase, version, sequence, unit, quota_area,
+    complete_flag, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--
+    @mbggenerated
+    -->
+    select
+    <include refid="Base_Column_List"/>
+    from t_fit_task_instance
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--
+    @mbggenerated
+    -->
+    delete from t_fit_task_instance
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.chaoxuan.zeus.model.FitTaskInstance">
+    <!--
+    @mbggenerated
+    -->
+    insert into t_fit_task_instance (id, title, fit_order_id,
+    fit_task_id, task_start_time, task_check_time,
+    task_max_day, task_min_day, task_actual_day,
+    requirement_machine_id, requirement_product_id,
+    requirement_worker_id, work_amount, category,
+    fit_standard_id, phase, version,
+    sequence, unit, quota_area,
+    complete_flag, status)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{fitOrderId,jdbcType=INTEGER},
+    #{fitTaskId,jdbcType=INTEGER}, #{taskStartTime,jdbcType=TIMESTAMP}, #{taskCheckTime,jdbcType=TIMESTAMP},
+    #{taskMaxDay,jdbcType=INTEGER}, #{taskMinDay,jdbcType=INTEGER}, #{taskActualDay,jdbcType=INTEGER},
+    #{requirementMachineId,jdbcType=INTEGER}, #{requirementProductId,jdbcType=INTEGER},
+    #{requirementWorkerId,jdbcType=INTEGER}, #{workAmount,jdbcType=INTEGER}, #{category,jdbcType=INTEGER},
+    #{fitStandardId,jdbcType=INTEGER}, #{phase,jdbcType=INTEGER}, #{version,jdbcType=VARCHAR},
+    #{sequence,jdbcType=INTEGER}, #{unit,jdbcType=VARCHAR}, #{quotaArea,jdbcType=VARCHAR},
+    #{completeFlag,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.chaoxuan.zeus.model.FitTaskInstance">
+    <!--
+    @mbggenerated
+    -->
+    insert into t_fit_task_instance
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="fitOrderId != null">
+        fit_order_id,
+      </if>
+      <if test="fitTaskId != null">
+        fit_task_id,
+      </if>
+      <if test="taskStartTime != null">
+        task_start_time,
+      </if>
+      <if test="taskCheckTime != null">
+        task_check_time,
+      </if>
+      <if test="taskMaxDay != null">
+        task_max_day,
+      </if>
+      <if test="taskMinDay != null">
+        task_min_day,
+      </if>
+      <if test="taskActualDay != null">
+        task_actual_day,
+      </if>
+      <if test="requirementMachineId != null">
+        requirement_machine_id,
+      </if>
+      <if test="requirementProductId != null">
+        requirement_product_id,
+      </if>
+      <if test="requirementWorkerId != null">
+        requirement_worker_id,
+      </if>
+      <if test="workAmount != null">
+        work_amount,
+      </if>
+      <if test="category != null">
+        category,
+      </if>
+      <if test="fitStandardId != null">
+        fit_standard_id,
+      </if>
+      <if test="phase != null">
+        phase,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="sequence != null">
+        sequence,
+      </if>
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="quotaArea != null">
+        quota_area,
+      </if>
+      <if test="completeFlag != null">
+        complete_flag,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="fitOrderId != null">
+        #{fitOrderId,jdbcType=INTEGER},
+      </if>
+      <if test="fitTaskId != null">
+        #{fitTaskId,jdbcType=INTEGER},
+      </if>
+      <if test="taskStartTime != null">
+        #{taskStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskCheckTime != null">
+        #{taskCheckTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskMaxDay != null">
+        #{taskMaxDay,jdbcType=INTEGER},
+      </if>
+      <if test="taskMinDay != null">
+        #{taskMinDay,jdbcType=INTEGER},
+      </if>
+      <if test="taskActualDay != null">
+        #{taskActualDay,jdbcType=INTEGER},
+      </if>
+      <if test="requirementMachineId != null">
+        #{requirementMachineId,jdbcType=INTEGER},
+      </if>
+      <if test="requirementProductId != null">
+        #{requirementProductId,jdbcType=INTEGER},
+      </if>
+      <if test="requirementWorkerId != null">
+        #{requirementWorkerId,jdbcType=INTEGER},
+      </if>
+      <if test="workAmount != null">
+        #{workAmount,jdbcType=INTEGER},
+      </if>
+      <if test="category != null">
+        #{category,jdbcType=INTEGER},
+      </if>
+      <if test="fitStandardId != null">
+        #{fitStandardId,jdbcType=INTEGER},
+      </if>
+      <if test="phase != null">
+        #{phase,jdbcType=INTEGER},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="sequence != null">
+        #{sequence,jdbcType=INTEGER},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="quotaArea != null">
+        #{quotaArea,jdbcType=VARCHAR},
+      </if>
+      <if test="completeFlag != null">
+        #{completeFlag,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.chaoxuan.zeus.model.FitTaskInstance">
+    <!--
+    @mbggenerated
+    -->
+    update t_fit_task_instance
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="fitOrderId != null">
+        fit_order_id = #{fitOrderId,jdbcType=INTEGER},
+      </if>
+      <if test="fitTaskId != null">
+        fit_task_id = #{fitTaskId,jdbcType=INTEGER},
+      </if>
+      <if test="taskStartTime != null">
+        task_start_time = #{taskStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskCheckTime != null">
+        task_check_time = #{taskCheckTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskMaxDay != null">
+        task_max_day = #{taskMaxDay,jdbcType=INTEGER},
+      </if>
+      <if test="taskMinDay != null">
+        task_min_day = #{taskMinDay,jdbcType=INTEGER},
+      </if>
+      <if test="taskActualDay != null">
+        task_actual_day = #{taskActualDay,jdbcType=INTEGER},
+      </if>
+      <if test="requirementMachineId != null">
+        requirement_machine_id = #{requirementMachineId,jdbcType=INTEGER},
+      </if>
+      <if test="requirementProductId != null">
+        requirement_product_id = #{requirementProductId,jdbcType=INTEGER},
+      </if>
+      <if test="requirementWorkerId != null">
+        requirement_worker_id = #{requirementWorkerId,jdbcType=INTEGER},
+      </if>
+      <if test="workAmount != null">
+        work_amount = #{workAmount,jdbcType=INTEGER},
+      </if>
+      <if test="category != null">
+        category = #{category,jdbcType=INTEGER},
+      </if>
+      <if test="fitStandardId != null">
+        fit_standard_id = #{fitStandardId,jdbcType=INTEGER},
+      </if>
+      <if test="phase != null">
+        phase = #{phase,jdbcType=INTEGER},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="sequence != null">
+        sequence = #{sequence,jdbcType=INTEGER},
+      </if>
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="quotaArea != null">
+        quota_area = #{quotaArea,jdbcType=VARCHAR},
+      </if>
+      <if test="completeFlag != null">
+        complete_flag = #{completeFlag,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.chaoxuan.zeus.model.FitTaskInstance">
+    <!--
+    @mbggenerated
+    -->
+    update t_fit_task_instance
+    set title = #{title,jdbcType=VARCHAR},
+    fit_order_id = #{fitOrderId,jdbcType=INTEGER},
+    fit_task_id = #{fitTaskId,jdbcType=INTEGER},
+    task_start_time = #{taskStartTime,jdbcType=TIMESTAMP},
+    task_check_time = #{taskCheckTime,jdbcType=TIMESTAMP},
+    task_max_day = #{taskMaxDay,jdbcType=INTEGER},
+    task_min_day = #{taskMinDay,jdbcType=INTEGER},
+    task_actual_day = #{taskActualDay,jdbcType=INTEGER},
+    requirement_machine_id = #{requirementMachineId,jdbcType=INTEGER},
+    requirement_product_id = #{requirementProductId,jdbcType=INTEGER},
+    requirement_worker_id = #{requirementWorkerId,jdbcType=INTEGER},
+    work_amount = #{workAmount,jdbcType=INTEGER},
+    category = #{category,jdbcType=INTEGER},
+    fit_standard_id = #{fitStandardId,jdbcType=INTEGER},
+    phase = #{phase,jdbcType=INTEGER},
+    version = #{version,jdbcType=VARCHAR},
+    sequence = #{sequence,jdbcType=INTEGER},
+    unit = #{unit,jdbcType=VARCHAR},
+    quota_area = #{quotaArea,jdbcType=VARCHAR},
+    complete_flag = #{completeFlag,jdbcType=INTEGER},
+    status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="searchByOrderId" resultMap="BaseResultMap" parameterType="int">
+
+    SELECT t.id ,t.title ,t.task_start_time ,t.task_check_time,t.task_max_day,t.task_min_day,t.task_actual_day ,t.complete_flag ,s.title,o.status order_status,f.userid uid,f.username username,h.role,h.street,h.community ,
+            count(wr.status) + IFNULL(pr.prstatus,0) +IFNULL(rm.status,0)+IFNULL(rw.status,0) taskSum
+    FROM
+    t_fit_task_instance t
+    left JOIN
+    t_process_flow s
+    ON
+    s.fit_standard_id=t.id
+    left join
+    t_fit_order o
+    ON
+    t.fit_order_id = o.id
+    left join
+    t_owner_info f
+    on f.id = o.user_id
+    left join
+    t_owner_home_info h
+    on
+    h.userid = f.id
+
+    left join
+    t_worker_result wr
+    on
+    wr.process_flow_id =  s.id and wr.status != 2
+
+    left join
+    t_requirement_machine rm
+    on
+    rm.fit_task_id = t.id and rm.status = 1
+
+    left join
+    t_requirement_product pr
+    on
+    pr.fit_task_id = t.id and pr.prstatus = 1
+
+    left join
+    t_requirement_worker rw
+    on
+    rw.fit_task_id   = t.id  and rw.status =1
+
+    WHERE t.fit_order_id=#{orderId}
+    group by t.id
+    ORDER BY t.task_start_time ASC
+  </select>
+
+  <select id="searchByOrderAndPhase" resultMap="BaseResultMap" parameterType="Map">
+    SELECT * FROM t_fit_task_instance t INNER JOIN t_fit_standard s ON t.fit_standard_id = s.id
+    WHERE t.fit_order_id=#{order} AND t.phase=#{phase}
+  </select>
+
+  <select id="getTotalDaysByOrderId" parameterType="int" resultType="java.lang.Integer">
+    SELECT SUM(task_actual_day) FROM t_fit_task_instance WHERE fit_order_id=#{id}
+  </select>
+
+  <select id="getCompletedDaysByOrderId" parameterType="int" resultType="java.lang.Integer">
+    SELECT SUM(task_actual_day) FROM t_fit_task_instance WHERE fit_order_id=#{id}
+    AND complete_flag=1
+  </select>
+
+  <select id="getPhaseCountByOrderId" resultType="int" parameterType="int">
+    SELECT COUNT(DISTINCT PHASE) FROM t_fit_task_instance
+  </select>
+
+  <select id="count" parameterType="java.util.Map" resultType="java.lang.Integer">
+    select
+    count(*)
+    from
+    t_fit_task_instance t
+    <where>
+      <if test="fitOrderId != null">
+        and t.fit_order_id = #{fitOrderId}
+      </if>
+      <if test="completeFlag != null">
+        and (t.complete_flag = 0 or t.complete_flag = 2)
+      </if>
+    </where>
+  </select>
+
+  <select id="getMinDate" parameterType="java.util.Map" resultType="java.util.Date">
+    select min(t.task_start_time) from t_fit_task_instance t
+    <where>
+      <if test="fitOrderId != null">
+        and t.fit_order_id = #{fitOrderId}
+      </if>
+      <if test="completeFlag != null">
+        and t.complete_flag = #{completeFlag}
+      </if>
+    </where>
+  </select>
+  <!--查询施工进度及工艺流程-->
+  <resultMap id="fitPro" type="org.chaoxuan.zeus.model.FitTaskInstance">
+    <id column="t1id" property="id"></id>
+    <result column="title" property="title"></result>
+    <result column="task_start_time" property="taskStartTime"></result>
+    <result column="task_check_time" property="taskCheckTime"></result>
+    <result column="task_max_day" property="taskMaxDay"></result>
+    <result column="task_min_day" property="taskMinDay"></result>
+    <result column="complete_flag" property="completeFlag"></result>
+    <association property="fitOrder" javaType="org.chaoxuan.zeus.model.FitOrder">
+      <id column="t3id" property="id"></id>
+      <result column="status" property="status"></result>
+    </association>
+    <collection property="fitProcessFlows" ofType="org.chaoxuan.zeus.model.FitProcessFlow">
+      <id column="t2id" property="id"></id>
+      <result column="ttitle" property="title"></result>
+      <result column="attachs" property="attachs"></result>
+      <result column="restatus" property="restatus"></result>
+    </collection>
+
+  </resultMap>
+  <select id="getFitProgress" parameterType="int" resultMap="fitPro">
+    select
+    t1.id t1id,
+    t1.title,
+    t1.task_start_time,
+    t1.task_check_time,
+    t1.task_max_day,
+    t1.task_min_day,
+    t1.complete_flag,
+    t2.id t2id,
+    t2.title ttitle,
+    t2.attachs,
+    t3.id t3id,
+    t3.status,
+    t4.status restatus
+    from
+    t_fit_task_instance t1
+    left join
+    t_process_flow t2
+    on
+    t2.fit_standard_id = t1.id
+    left join
+    t_fit_order t3
+    on
+    t3.id = t1.fit_order_id
+    left join
+    t_worker_result t4
+    on
+    t4.process_flow_id = t2.id
+    where t1.id = #{id}
+    order by t2.id
+  </select>
+
+  <!--工艺规范-->
+  <resultMap id="fitspeces" type="org.chaoxuan.zeus.model.FitProcessFlow">
+    <id column="tid" property="id"></id>
+    <result column="ttitle" property="title"></result>
+    <result column="describe" property="describe"></result>
+    <result column="fit_standard_id" property="fitStandardId"></result>
+    <collection property="fitProcessSpeces" ofType="org.chaoxuan.zeus.model.FitProcessSpeces" >
+      <id column="t2id" property="id"></id>
+      <result column="title" property="title"></result>
+      <result column="desc" property="desc"></result>
+      <result column="attachs" property="attachs"></result>
+    </collection>
+  </resultMap>
+  <select id="getFitSpeces" parameterType="int" resultMap="fitspeces">
+    select
+    t1.id tid,
+    t1.title ttitle,
+    t1.fit_standard_id,
+    t1.describe,
+    t2.id t2id,
+    t2.title,
+    t2.desc,
+    t2.attachs
+    from
+    t_process_flow t1
+    left join
+    t_process_speces t2
+    on
+    t1.id = t2.t_process_flow_id
+    where t1.id = #{id}
+    order by t2.id
+  </select>
+
+  <!--查看自检结果-->
+  <resultMap id="fitCheck" type="org.chaoxuan.zeus.model.FitProcessFlow">
+    <id column="tid" property="id"></id>
+    <result column="title" property="title"></result>
+
+    <collection property="workerResult" ofType="org.chaoxuan.zeus.model.WorkerResult" >
+      <id column="t2id" property="id"></id>
+      <result column="attachs" property="attachs"></result>
+      <result column="status" property="status"></result>
+    </collection>
+  </resultMap>
+  <select id="getFitCheck" parameterType="int" resultMap="fitCheck">
+    select
+    t1.id tid,
+    t1.title,
+    t2.id t2id,
+    t2.attachs,
+    t2.status
+    from
+    t_process_flow t1
+    left join
+    t_worker_result t2
+    on
+    t1.id = t2.process_flow_id
+    where t1.id = #{id}
+    order by t2.id
+
+  </select>
+
+
+  <!--查询任务名称和状态-->
+  <resultMap id="fitSta" type="org.chaoxuan.zeus.model.FitTaskInstance">
+    <id column="t1id" property="id"></id>
+    <result column="title" property="title"></result>
+    <result column="complete_flag" property="completeFlag"></result>
+    <association property="fitOrder" javaType="org.chaoxuan.zeus.model.FitOrder">
+      <id column="t2id" property="id"></id>
+      <result column="status" property="status"></result>
+    </association>
+
+  </resultMap>
+  <select id="getFitStatus" parameterType="int" resultMap="fitSta">
+    select
+    t1.id t1id,
+    t1.title,
+    t1.complete_flag,
+    t2.id t2id,
+    t2.status
+    from
+    t_fit_task_instance t1
+    left join
+    t_fit_order t2
+    on
+    t1.fit_order_id = t2.id
+    where t1.id = #{id}
+  </select>
+  <select id=""></select>
+  <update id="checkReder" parameterType="int">
+    update t_worker_result set status=0 where id = #{id}
+  </update>
+  <update id="checkPass" parameterType="int">
+    update t_worker_result set status=2 where id = #{id}
+  </update>
+
+</mapper>

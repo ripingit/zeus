@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.chaoxuan.zeus.dao.FitStandardMapper">
+	<resultMap id="BaseResultMap" type="org.chaoxuan.zeus.model.FitStandard">
+		<!-- @mbggenerated -->
+		<id column="id" jdbcType="INTEGER" property="id" />
+	</resultMap>
+	<resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="org.chaoxuan.zeus.model.FitStandard">
+		<!-- @mbggenerated -->
+		<result column="process_flow" jdbcType="LONGVARCHAR" property="processFlow" />
+		<result column="rely_standard_detail" jdbcType="LONGVARCHAR" property="relyStandardDetail" />
+		<result column="rely_standard_affix_" jdbcType="LONGVARCHAR" property="relyStandardAffix" />
+		<result column="application_range_detail" jdbcType="LONGVARCHAR" property="applicationRangeDetail" />
+		<result column="application_range_affix" jdbcType="LONGVARCHAR" property="applicationRangeAffix" />
+		<result column="construction_prepare_detail" jdbcType="LONGVARCHAR" property="constructionPrepareDetail" />
+		<result column="construction_prepare_affix" jdbcType="LONGVARCHAR" property="constructionPrepareAffix" />
+		<result column="task_condition_detail" jdbcType="LONGVARCHAR" property="taskConditionDetail" />
+		<result column="task_condition_affix" jdbcType="LONGVARCHAR" property="taskConditionAffix" />
+		<result column="quality_check_detail" jdbcType="LONGVARCHAR" property="qualityCheckDetail" />
+		<result column="quality_check_affix" jdbcType="LONGVARCHAR" property="qualityCheckAffix" />
+		<result column="attention_detail" jdbcType="LONGVARCHAR" property="attentionDetail" />
+		<result column="attention_affix" jdbcType="LONGVARCHAR" property="attentionAffix" />
+		<result column="product_protection_detail" jdbcType="LONGVARCHAR" property="productProtectionDetail" />
+		<result column="product_protection_affix" jdbcType="LONGVARCHAR" property="productProtectionAffix" />
+		<result column="safety_green_detail" jdbcType="LONGVARCHAR" property="safetyGreenDetail" />
+		<result column="safety_green_affix" jdbcType="LONGVARCHAR" property="safetyGreenAffix" />
+		<result column="selfcheck_detail" jdbcType="LONGVARCHAR" property="selfcheckDetail" />
+		<result column="selfcheck_affix" jdbcType="LONGVARCHAR" property="selfcheckAffix" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		<!-- @mbggenerated -->
+		id
+	</sql>
+	<sql id="Blob_Column_List">
+		<!-- @mbggenerated -->
+		process_flow, rely_standard_detail, rely_standard_affix_, application_range_detail,
+		application_range_affix, construction_prepare_detail, construction_prepare_affix,
+		task_condition_detail, task_condition_affix, quality_check_detail, quality_check_affix,
+		attention_detail, attention_affix, product_protection_detail, product_protection_affix,
+		safety_green_detail, safety_green_affix, selfcheck_detail, selfcheck_affix
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+		<!-- @mbggenerated -->
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from t_fit_standard
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		<!-- @mbggenerated -->
+		delete from t_fit_standard
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="org.chaoxuan.zeus.model.FitStandard">
+		<!-- @mbggenerated -->
+		insert into t_fit_standard (id, process_flow, rely_standard_detail,
+		rely_standard_affix_, application_range_detail,
+		application_range_affix, construction_prepare_detail,
+		construction_prepare_affix, task_condition_detail,
+		task_condition_affix, quality_check_detail,
+		quality_check_affix, attention_detail,
+		attention_affix, product_protection_detail,
+		product_protection_affix, safety_green_detail,
+		safety_green_affix, selfcheck_detail,
+		selfcheck_affix)
+		values (#{id,jdbcType=INTEGER}, #{processFlow,jdbcType=LONGVARCHAR}, #{relyStandardDetail,jdbcType=LONGVARCHAR},
+		#{relyStandardAffix,jdbcType=LONGVARCHAR}, #{applicationRangeDetail,jdbcType=LONGVARCHAR},
+		#{applicationRangeAffix,jdbcType=LONGVARCHAR}, #{constructionPrepareDetail,jdbcType=LONGVARCHAR},
+		#{constructionPrepareAffix,jdbcType=LONGVARCHAR}, #{taskConditionDetail,jdbcType=LONGVARCHAR},
+		#{taskConditionAffix,jdbcType=LONGVARCHAR}, #{qualityCheckDetail,jdbcType=LONGVARCHAR},
+		#{qualityCheckAffix,jdbcType=LONGVARCHAR},
+		#{attentionDetail,jdbcType=LONGVARCHAR},
+		#{attentionAffix,jdbcType=LONGVARCHAR}, #{productProtectionDetail,jdbcType=LONGVARCHAR},
+		#{productProtectionAffix,jdbcType=LONGVARCHAR}, #{safetyGreenDetail,jdbcType=LONGVARCHAR},
+		#{safetyGreenAffix,jdbcType=LONGVARCHAR}, #{selfcheckDetail,jdbcType=LONGVARCHAR},
+		#{selfcheckAffix,jdbcType=LONGVARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="org.chaoxuan.zeus.model.FitStandard" useGeneratedKeys="true" keyProperty="id">
+		<!-- @mbggenerated -->
+		insert into t_fit_standard
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="processFlow != null">
+				process_flow,
+			</if>
+			<if test="relyStandardDetail != null">
+				rely_standard_detail,
+			</if>
+			<if test="relyStandardAffix != null">
+				rely_standard_affix_,
+			</if>
+			<if test="applicationRangeDetail != null">
+				application_range_detail,
+			</if>
+			<if test="applicationRangeAffix != null">
+				application_range_affix,
+			</if>
+			<if test="constructionPrepareDetail != null">
+				construction_prepare_detail,
+			</if>
+			<if test="constructionPrepareAffix != null">
+				construction_prepare_affix,
+			</if>
+			<if test="taskConditionDetail != null">
+				task_condition_detail,
+			</if>
+			<if test="taskConditionAffix != null">
+				task_condition_affix,
+			</if>
+			<if test="qualityCheckDetail != null">
+				quality_check_detail,
+			</if>
+			<if test="qualityCheckAffix != null">
+				quality_check_affix,
+			</if>
+			<if test="attentionDetail != null">
+				attention_detail,
+			</if>
+			<if test="attentionAffix != null">
+				attention_affix,
+			</if>
+			<if test="productProtectionDetail != null">
+				product_protection_detail,
+			</if>
+			<if test="productProtectionAffix != null">
+				product_protection_affix,
+			</if>
+			<if test="safetyGreenDetail != null">
+				safety_green_detail,
+			</if>
+			<if test="safetyGreenAffix != null">
+				safety_green_affix,
+			</if>
+			<if test="selfcheckDetail != null">
+				selfcheck_detail,
+			</if>
+			<if test="selfcheckAffix != null">
+				selfcheck_affix,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="processFlow != null">
+				#{processFlow,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="relyStandardDetail != null">
+				#{relyStandardDetail,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="relyStandardAffix != null">
+				#{relyStandardAffix,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="applicationRangeDetail != null">
+				#{applicationRangeDetail,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="applicationRangeAffix != null">
+				#{applicationRangeAffix,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="constructionPrepareDetail != null">
+				#{constructionPrepareDetail,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="constructionPrepareAffix != null">
+				#{constructionPrepareAffix,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="taskConditionDetail != null">
+				#{taskConditionDetail,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="taskConditionAffix != null">
+				#{taskConditionAffix,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="qualityCheckDetail != null">
+				#{qualityCheckDetail,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="qualityCheckAffix != null">
+				#{qualityCheckAffix,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="attentionDetail != null">
+				#{attentionDetail,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="attentionAffix != null">
+				#{attentionAffix,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="productProtectionDetail != null">
+				#{productProtectionDetail,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="productProtectionAffix != null">
+				#{productProtectionAffix,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="safetyGreenDetail != null">
+				#{safetyGreenDetail,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="safetyGreenAffix != null">
+				#{safetyGreenAffix,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="selfcheckDetail != null">
+				#{selfcheckDetail,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="selfcheckAffix != null">
+				#{selfcheckAffix,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="org.chaoxuan.zeus.model.FitStandard">
+		<!-- @mbggenerated -->
+		update t_fit_standard
+		<set>
+			<if test="processFlow != null">
+				process_flow = #{processFlow,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="relyStandardDetail != null">
+				rely_standard_detail = #{relyStandardDetail,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="relyStandardAffix != null">
+				rely_standard_affix_ = #{relyStandardAffix,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="applicationRangeDetail != null">
+				application_range_detail = #{applicationRangeDetail,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="applicationRangeAffix != null">
+				application_range_affix = #{applicationRangeAffix,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="constructionPrepareDetail != null">
+				construction_prepare_detail = #{constructionPrepareDetail,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="constructionPrepareAffix != null">
+				construction_prepare_affix = #{constructionPrepareAffix,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="taskConditionDetail != null">
+				task_condition_detail = #{taskConditionDetail,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="taskConditionAffix != null">
+				task_condition_affix = #{taskConditionAffix,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="qualityCheckDetail != null">
+				quality_check_detail = #{qualityCheckDetail,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="qualityCheckAffix != null">
+				quality_check_affix = #{qualityCheckAffix,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="attentionDetail != null">
+				attention_detail = #{attentionDetail,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="attentionAffix != null">
+				attention_affix = #{attentionAffix,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="productProtectionDetail != null">
+				product_protection_detail = #{productProtectionDetail,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="productProtectionAffix != null">
+				product_protection_affix = #{productProtectionAffix,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="safetyGreenDetail != null">
+				safety_green_detail = #{safetyGreenDetail,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="safetyGreenAffix != null">
+				safety_green_affix = #{safetyGreenAffix,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="selfcheckDetail != null">
+				selfcheck_detail = #{selfcheckDetail,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="selfcheckAffix != null">
+				selfcheck_affix = #{selfcheckAffix,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="org.chaoxuan.zeus.model.FitStandard">
+		<!-- @mbggenerated -->
+		update t_fit_standard
+		set process_flow = #{processFlow,jdbcType=LONGVARCHAR},
+		rely_standard_detail = #{relyStandardDetail,jdbcType=LONGVARCHAR},
+		rely_standard_affix_ = #{relyStandardAffix,jdbcType=LONGVARCHAR},
+		application_range_detail = #{applicationRangeDetail,jdbcType=LONGVARCHAR},
+		application_range_affix = #{applicationRangeAffix,jdbcType=LONGVARCHAR},
+		construction_prepare_detail = #{constructionPrepareDetail,jdbcType=LONGVARCHAR},
+		construction_prepare_affix = #{constructionPrepareAffix,jdbcType=LONGVARCHAR},
+		task_condition_detail = #{taskConditionDetail,jdbcType=LONGVARCHAR},
+		task_condition_affix = #{taskConditionAffix,jdbcType=LONGVARCHAR},
+		quality_check_detail = #{qualityCheckDetail,jdbcType=LONGVARCHAR},
+		quality_check_affix = #{qualityCheckAffix,jdbcType=LONGVARCHAR},
+		attention_detail = #{attentionDetail,jdbcType=LONGVARCHAR},
+		attention_affix = #{attentionAffix,jdbcType=LONGVARCHAR},
+		product_protection_detail = #{productProtectionDetail,jdbcType=LONGVARCHAR},
+		product_protection_affix =
+		#{productProtectionAffix,jdbcType=LONGVARCHAR},
+		safety_green_detail = #{safetyGreenDetail,jdbcType=LONGVARCHAR},
+		safety_green_affix = #{safetyGreenAffix,jdbcType=LONGVARCHAR},
+		selfcheck_detail = #{selfcheckDetail,jdbcType=LONGVARCHAR},
+		selfcheck_affix = #{selfcheckAffix,jdbcType=LONGVARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<select id="findByMap" parameterType="java.util.Map" resultMap="ResultMapWithBLOBs">
+		select
+			<include refid="Base_Column_List" />
+			,
+			<include refid="Blob_Column_List" />
+		from
+			t_fit_standard
+	</select>
+	
+</mapper>

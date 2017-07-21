@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.chaoxuan.zeus.dao.ProcessFlowMapper">
+    <resultMap id="BaseResultMap" type="org.chaoxuan.zeus.model.ProcessFlow">
+        <!--
+        @mbggenerated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="fit_standard_id" jdbcType="INTEGER" property="fitStandardId"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="org.chaoxuan.zeus.model.ProcessFlowWithBLOBs">
+        <!--
+        @mbggenerated
+        -->
+        <result column="describe" jdbcType="LONGVARCHAR" property="describe"/>
+        <result column="attachs" jdbcType="LONGVARCHAR" property="attachs"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--
+        @mbggenerated
+        -->
+        id, fit_standard_id, title
+    </sql>
+    <sql id="Blob_Column_List">
+        <!--
+        @mbggenerated
+        -->
+        `describe`, attachs
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+        <!--
+        @mbggenerated
+        -->
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from t_process_flow
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--
+        @mbggenerated
+        -->
+        delete from t_process_flow
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="org.chaoxuan.zeus.model.ProcessFlowWithBLOBs">
+        <!--
+        @mbggenerated
+        -->
+        insert into t_process_flow (id, fit_standard_id, title,
+        describe, attachs)
+        values (#{id,jdbcType=INTEGER}, #{fitStandardId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR},
+        #{describe,jdbcType=LONGVARCHAR}, #{attachs,jdbcType=LONGVARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="org.chaoxuan.zeus.model.ProcessFlowWithBLOBs">
+        <!--
+        @mbggenerated
+        -->
+        insert into t_process_flow
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="fitStandardId != null">
+                fit_standard_id,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="describe != null">
+                describe,
+            </if>
+            <if test="attachs != null">
+                attachs,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="fitStandardId != null">
+                #{fitStandardId,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="describe != null">
+                #{describe,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="attachs != null">
+                #{attachs,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="org.chaoxuan.zeus.model.ProcessFlowWithBLOBs">
+        <!--
+        @mbggenerated
+        -->
+        update t_process_flow
+        <set>
+            <if test="fitStandardId != null">
+                fit_standard_id = #{fitStandardId,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="describe != null">
+                describe = #{describe,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="attachs != null">
+                attachs = #{attachs,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.chaoxuan.zeus.model.ProcessFlowWithBLOBs">
+        <!--
+        @mbggenerated
+        -->
+        update t_process_flow
+        set fit_standard_id = #{fitStandardId,jdbcType=INTEGER},
+        title = #{title,jdbcType=VARCHAR},
+        describe = #{describe,jdbcType=LONGVARCHAR},
+        attachs = #{attachs,jdbcType=LONGVARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="org.chaoxuan.zeus.model.ProcessFlow">
+        <!--
+        @mbggenerated
+        -->
+        update t_process_flow
+        set fit_standard_id = #{fitStandardId,jdbcType=INTEGER},
+        title = #{title,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <insert id="insertBatch" parameterType="java.util.List">
+        insert into t_process_flow (fit_standard_id, title, `describe`, attachs) values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.fitStandardId}, #{item.title}, #{item.describe}, #{item.attachs})
+        </foreach>
+    </insert>
+
+    <select id="find" parameterType="java.util.Map" resultMap="findMap">
+        select
+        t1.*,
+        t2.id as worker_result_id,
+        t2.worker_task_id,
+        t2.process_flow_id,
+        t2.remark,
+        t2.attachs as attachs_worker_result,
+        t2.status,
+        t2.create_time
+        from
+        t_process_flow t1
+        left join
+        t_worker_result t2
+        on t1.id = t2.process_flow_id
+        <where>
+            <if test="fitStandardId != null">
+                and t1.fit_standard_id = #{fitStandardId}
+            </if>
+            <if test="workerTaskId != null">
+                and (t2.worker_task_id = #{workerTaskId} or t2.worker_task_id is null)
+            </if>
+        </where>
+    </select>
+    <resultMap id="findMap" type="org.chaoxuan.zeus.model.ProcessFlowWithBLOBs" extends="ResultMapWithBLOBs">
+        <collection property="results" ofType="org.chaoxuan.zeus.model.WorkerResult">
+            <id column="worker_result_id" property="id"/>
+            <result column="worker_task_id" property="workerTaskId"/>
+            <result column="process_flow_id" property="processFlowId"/>
+            <result column="remark" property="remark"/>
+            <result column="attachs_worker_result" property="attachs"/>
+            <result column="status" property="status"/>
+            <result column="create_time" property="createTime"/>
+        </collection>
+    </resultMap>
+</mapper>

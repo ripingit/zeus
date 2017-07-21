@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.chaoxuan.zeus.dao.FitTaskMeasureMapper">
+	<resultMap id="BaseResultMap" type="org.chaoxuan.zeus.model.FitTaskMeasure">
+		<!-- @mbggenerated -->
+		<id column="id" property="id" />
+		<result column="fit_measure_id" property="fitMeasureId" />
+		<result column="fit_task_id" property="fitTaskId" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		<!-- @mbggenerated -->
+		id, fit_measure_id, fit_task_id
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		<!-- @mbggenerated -->
+		select
+		<include refid="Base_Column_List" />
+		from t_fit_task_measure
+		where id = #{id}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		<!-- @mbggenerated -->
+		delete from t_fit_task_measure
+		where id = #{id}
+	</delete>
+	<insert id="insert" parameterType="org.chaoxuan.zeus.model.FitTaskMeasure">
+		<!-- @mbggenerated -->
+		insert into t_fit_task_measure (id, fit_measure_id, fit_task_id
+		)
+		values (#{id}, #{fitMeasureId}, #{fitTaskId}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="org.chaoxuan.zeus.model.FitTaskMeasure">
+		<!-- @mbggenerated -->
+		insert into t_fit_task_measure
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="fitMeasureId != null">
+				fit_measure_id,
+			</if>
+			<if test="fitTaskId != null">
+				fit_task_id,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="fitMeasureId != null">
+				#{fitMeasureId},
+			</if>
+			<if test="fitTaskId != null">
+				#{fitTaskId},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="org.chaoxuan.zeus.model.FitTaskMeasure">
+		<!-- @mbggenerated -->
+		update t_fit_task_measure
+		<set>
+			<if test="fitMeasureId != null">
+				fit_measure_id = #{fitMeasureId},
+			</if>
+			<if test="fitTaskId != null">
+				fit_task_id = #{fitTaskId},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="org.chaoxuan.zeus.model.FitTaskMeasure">
+		<!-- @mbggenerated -->
+		update t_fit_task_measure
+		set fit_measure_id = #{fitMeasureId},
+		fit_task_id = #{fitTaskId}
+		where id = #{id}
+	</update>
+	
+	<!-- 批量插入 By Yurnero -->
+	<insert id="insertBatch" parameterType="java.util.List">
+		insert into t_fit_task_measure (fit_measure_id, fit_task_id)
+		values
+		<foreach collection="list" item="FitTaskMeasure" separator=",">
+			(#{FitTaskMeasure.fitMeasureId}, #{FitTaskMeasure.fitTaskId})
+		</foreach>
+	</insert>
+	
+	<select id="findByMap" parameterType="java.util.Map" resultMap="findMap">
+		select 
+			t1.fit_measure_id,
+			t2.name
+		from 
+			t_fit_task_measure t1
+		join 
+			t_fit_measure t2
+		on 
+	 		t1.fit_measure_id = t2.id
+	 	<where>
+			<if test="fitTaskId != null">
+				and t1.fit_task_id = #{fitTaskId}
+			</if>
+		</where>
+	</select>
+	<resultMap type="org.chaoxuan.zeus.model.FitTaskMeasure" id="findMap">
+		<id column="fit_measure_id" property="id"/>
+		<result column="name" property="name"/>
+	</resultMap>
+	
+	<delete id="deleteByMap" parameterType="java.util.Map">
+		delete from t_fit_task_measure
+		<where>
+			<if test="fitTaskId != null">
+				and fit_task_id = #{fitTaskId}
+			</if>
+		</where>
+	</delete>
+	
+	<select id="findByFitTaskId" parameterType="java.lang.Integer" resultMap="findByFitTaskIdMap">
+		select 
+			t1.*,
+			t2.name
+		from 
+			t_fit_task_measure t1
+		join 
+			t_fit_measure t2
+		on 
+	 		t1.fit_measure_id = t2.id
+	 	where
+			t1.fit_task_id = #{fitTaskId}
+	</select>
+	<resultMap type="org.chaoxuan.zeus.model.FitTaskMeasure" id="findByFitTaskIdMap" extends="BaseResultMap">
+		<result column="name" property="name"/>
+	</resultMap>
+</mapper>

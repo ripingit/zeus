@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.chaoxuan.zeus.dao.RequirementMachineMapper">
+  <resultMap id="BaseResultMap" type="org.chaoxuan.zeus.model.RequirementMachine">
+    <!--
+    @mbggenerated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="model" jdbcType="VARCHAR" property="model" />
+    <result column="suggest_order_time" jdbcType="TIMESTAMP" property="suggestOrderTime" />
+    <result column="arrival_time" jdbcType="TIMESTAMP" property="arrivalTime" />
+    <result column="progress" jdbcType="INTEGER" property="progress" />
+    <result column="fit_task_id" jdbcType="INTEGER" property="fitTaskId" />
+    <result column="day_count" jdbcType="INTEGER" property="dayCount" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+    @mbggenerated
+    -->
+    id, title, model, suggest_order_time, arrival_time, progress, fit_task_id,day_count
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--
+    @mbggenerated
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from t_requirement_machine
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="searchByTaskInstanceId" parameterType="int" resultMap="BaseResultMap">
+    SELECT * FROM t_requirement_machine where fit_task_id = #{id}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--
+    @mbggenerated
+    -->
+    delete from t_requirement_machine
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.chaoxuan.zeus.model.RequirementMachine">
+    <!--
+    @mbggenerated
+    -->
+    insert into t_requirement_machine (id, title, model, 
+      suggest_order_time, arrival_time, progress, 
+      fit_task_id,day_count)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{model,jdbcType=VARCHAR}, 
+      #{suggestOrderTime,jdbcType=TIMESTAMP}, #{arrivalTime,jdbcType=TIMESTAMP}, #{progress,jdbcType=INTEGER}, 
+      #{fitTaskId,jdbcType=INTEGER}, #{dayCount,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="org.chaoxuan.zeus.model.RequirementMachine">
+    <!--
+    @mbggenerated
+    -->
+    insert into t_requirement_machine
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="model != null">
+        model,
+      </if>
+      <if test="suggestOrderTime != null">
+        suggest_order_time,
+      </if>
+      <if test="arrivalTime != null">
+        arrival_time,
+      </if>
+      <if test="progress != null">
+        progress,
+      </if>
+      <if test="fitTaskId != null">
+        fit_task_id,
+      </if>
+      <if test="dayCount != null">
+        day_count,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="model != null">
+        #{model,jdbcType=VARCHAR},
+      </if>
+      <if test="suggestOrderTime != null">
+        #{suggestOrderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="arrivalTime != null">
+        #{arrivalTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="progress != null">
+        #{progress,jdbcType=INTEGER},
+      </if>
+      <if test="fitTaskId != null">
+        #{fitTaskId,jdbcType=INTEGER},
+      </if>
+      <if test="dayCount != null">
+        #{dayCount,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.chaoxuan.zeus.model.RequirementMachine">
+    <!--
+    @mbggenerated
+    -->
+    update t_requirement_machine
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="model != null">
+        model = #{model,jdbcType=VARCHAR},
+      </if>
+      <if test="suggestOrderTime != null">
+        suggest_order_time = #{suggestOrderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="arrivalTime != null">
+        arrival_time = #{arrivalTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="progress != null">
+        progress = #{progress,jdbcType=INTEGER},
+      </if>
+      <if test="fitTaskId != null">
+        fit_task_id = #{fitTaskId,jdbcType=INTEGER},
+      </if>
+      <if test="dayCount != null">
+        day_count = #{dayCount,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.chaoxuan.zeus.model.RequirementMachine">
+    <!--
+    @mbggenerated
+    -->
+    update t_requirement_machine
+    set title = #{title,jdbcType=VARCHAR},
+      model = #{model,jdbcType=VARCHAR},
+      suggest_order_time = #{suggestOrderTime,jdbcType=TIMESTAMP},
+      arrival_time = #{arrivalTime,jdbcType=TIMESTAMP},
+      progress = #{progress,jdbcType=INTEGER},
+      fit_task_id = #{fitTaskId,jdbcType=INTEGER},
+      day_count = #{dayCount,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="upadateMachineStatus" parameterType="int">
+    update t_requirement_machine set status=2 where id = #{id}
+  </update>
+</mapper>

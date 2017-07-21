@@ -1,0 +1,746 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.chaoxuan.zeus.dao.OwnerInfoMapper">
+
+  <sql id="Base_Column_List">
+    id, userid, username, registerdate, remarks,usergrade
+  </sql>
+  <!--sql片段根据条件查询-->
+  <sql id="mysql1">
+
+    <!--根据主键id查询 -->
+    <if test="id!=null and id!=''">
+      and id = #{id}
+    </if>
+    <!--根据用户id查询-->
+    <if test="userId!=null and userId!='' ">
+      and userId = #{userId}
+    </if>
+    <!-- 根据用户等级查询 -->
+    <if test="userGrade!=null and userGrade!=''">
+      and userGrade = #{userGrade}
+    </if>
+    <!--根据用户名模糊查询-->
+    <if test="userName !=null and userName !=''">
+      AND username like '%${userName}%'
+    </if>
+    <!--按装修订单查询-->
+    <!--    <if test="decorationOrder eq 'true' ">
+            and decorationorder is not null
+        </if>
+        &lt;!&ndash;按测量订单查询&ndash;&gt;
+        <if test="measureOrder eq 'true'">
+            and measureorder is not null
+        </if>
+         &lt;!&ndash;按测量订单查询&ndash;&gt;
+        <if test="decorationOrder eq 'true'">
+            and decorationOrder is not null
+        </if>
+   -->
+    <!--如果开始日期有 结束日期没有 则查询 开始日期当天的时间 -->
+    <if test="startTime!=null and endTime == null">
+      and registerdate = #{startTime}
+    </if>
+    <!-- 如果结束日期有 开始日期没有 则查询 结束日期当天的时间  -->
+    <if test="endTime!=null and startTime == null">
+      and registerdate = #{endTime}
+    </if>
+    <!-- 开始结束时间都有则查区间时间 -->
+    <if test="startTime!=null and endTime!=null">
+      and registerdate between #{startTime} and #{endTime}
+    </if>
+
+    <if test="name!=null and name !=''">
+      and username = #{name}
+    </if>
+  </sql>
+  <select id="getOwnerInfo" parameterType="org.chaoxuan.zeus.model.OwnerInfoExtend" resultType="org.chaoxuan.zeus.model.OwnerInfo">
+    select
+    <include refid="Base_Column_List"/>
+    from t_owner_info
+    <where>
+      <include refid="mysql1"></include>
+    </where>
+
+
+  </select>
+  <!--查询最后所有装修-->
+  <!-- 添加备注 -->
+  <update id="updateRemarks" parameterType="org.chaoxuan.zeus.model.OwnerInfo">
+    update t_owner_info set remarks = #{remarks}
+    where id = #{id}
+  </update>
+  <!--按照最新更新时间查询所有订单信息-->
+  <resultMap id="findFitOrderMap" type="org.chaoxuan.zeus.page.PageOwner">
+    <id column="id" property="id"/>
+    <result column="username" property="username"/>
+    <result column="address" property="address"/>
+    <result column="street" property="street"/>
+    <result column="community" property="community"/>
+    <result column="role" property="role"/>
+    <result column="fit_order_id" property="fitOrderId"/>
+    <result column="status" property="status"/>
+    <result column="sign_at" property="signAt"/>
+    <result column="total_money" property="totalMoney"/>
+    <result column="start_at" property="startAt"/>
+    <result column="end_at" property="endAt"/>
+    <result column="fit_rule_id" property="fitRuleId"/>
+    <result column="f_time" property="finTime"/>
+    <result column="c_time" property="checkTime"/>
+  </resultMap>
+  <select id="findAllOrder"  parameterType="java.util.Map" resultMap="findFitOrderMap">
+    select *,'a' as a from(
+    select
+    t1.id,
+    t1.username,
+    t2.street,
+    t2.community,
+    t2.role,
+    t3.id as measure_id,
+    '0' as fit_order_id,
+    t3.statuorder as status,
+    t3.sigdate as sign_at,
+    t3.ammoney as total_money,
+    t3.createTime as start_at,
+    t3.findate as end_at,
+    t3.measuredate c_time,
+    t3.measuredate f_time,
+    GREATEST(t3.sigdate,t3.createTime, t3.findate,t3.measuredate) maxtime
+    from
+    t_owner_info t1
+    left join
+    t_owner_home_info t2
+    on
+    t1.id = t2.userid
+    join
+    t_measure_order t3
+    on
+    t1.id = t3.userid
+    <where>
+      <if test="status != null and status !=0 ">
+        and t3.statuorder = #{status}
+      </if>
+      <if test="managerId != null">
+        and t3.fitmanagerid = #{managerId}
+      </if>
+      <!--<if test="ids != nu       ll">
+          <foreach collection="ids" item="item" open="and t1.id not in(" close=")" separator=",">
+            #{item}
+          </foreach>
+        </if>-->
+    </where>
+    group by t1.id
+    ) t1
+    union all
+    select *,'b' as b from(
+    select
+    t1.id,
+    t1.username,
+    t2.street,
+    t2.community,
+    t2.role,
+    '0' as measure_id,
+    t3.id as fit_order_id,
+    t3.status,
+    t3.contract_time as sign_at,
+    t3.contract_money as total_money,
+    t3.createTime as start_at,
+    t3.predict_time as end_at,
+    t3.fin_time f_time,
+    t3.check_time c_time,
+    GREATEST(contract_time,predict_time,createTime,payTime,check_time,fin_time,task_start_time,task_check_time) maxtime
+    from
+    t_owner_info t1
+    left join
+    t_owner_home_info t2
+    on
+    t1.id = t2.userid
+    join
+    t_fit_order t3
+    on
+    t1.id = t3.user_id
+    left join
+    t_fit_task_instance t4
+    on
+    t4.fit_order_id = t3.id
+    <where>
+      <if test="status != null and status !=0 ">
+        and t3.status = #{status}
+      </if>
+      <if test="managerId != null">
+        and t3.manager_id = #{managerId}
+      </if>
+    </where>
+    group by t1.id
+    )t2
+    order by maxtime desc
+  </select>
+  <!-- 查询管控列表装修任务 By Yurnero -->
+  <select id="findFitOrder" parameterType="java.util.Map" resultMap="findFitOrderMap">
+    select
+    t1.id,
+    t1.username,
+    t2.address,
+    t2.street,
+    t2.community,
+    t3.id as fit_order_id,
+    t3.status,
+    t3.contract_time as sign_at,
+    t3.contract_money as total_money,
+    t3.createTime as start_at,
+    t3.predict_time as end_at,
+    t3.fit_rule_id,
+    t3.fin_time,
+    t3.check_time
+    from
+    t_owner_info t1
+    left join
+    t_owner_home_info t2
+    on
+    t1.id = t2.userid
+    join
+    t_fit_order t3
+    on
+    t1.id = t3.user_id
+    <where>
+      <if test="status != null and status !=0 ">
+        and t3.status = #{status}
+      </if>
+      <if test="managerId != null">
+        and t3.manager_id = #{managerId}
+      </if>
+    </where>
+  </select>
+
+  <resultMap id="moneySrc" type="org.chaoxuan.zeus.model.OwnerInfo">
+    <id column="oid" property="id"/>
+    <result column="username" property="userName"></result>
+    <association property="ownerHomeInfo" javaType="org.chaoxuan.zeus.model.OwnerHomeInfo">
+      <id column="hid" property="id"></id>
+      <result column="street" property="street"/>
+      <result column="community" property="community"/>
+    </association>
+    <association property="fitOrder" javaType="org.chaoxuan.zeus.model.FitOrder">
+      <id column="fid" property="id"></id>
+      <result column="pay_money" property="payMoney"></result>
+      <result column="contract_money" property="contractMoney"></result>
+    </association>
+    <association property="fitMoney" javaType="org.chaoxuan.zeus.model.FitMoney">
+      <id column="mid" property="id"></id>
+      <result column="task_amount" property="taskAmount"></result>
+      <result column="getmoney_time" property="getmoneyTime"></result>
+      <result column="has_receivables" property="hasReceivables"></result>
+    </association>
+  </resultMap>
+  <select id="getMoneySrc" resultMap="moneySrc">
+    select
+    o.id oid,
+    o.username,
+    h.id hid,
+    h.street,
+    h.community,
+    f.id fid,
+    f.contract_money,
+    f.pay_money,
+    m.pay has_receivables,
+    m.id mid,
+    m.fit_task_id,
+    m.task_amount,
+    m.getmoney_time
+    from
+    t_owner_info o
+    left join
+    t_owner_home_info h
+    on
+    o.id = h.userid
+    inner join
+    t_fit_order f
+    on
+    f.user_id = o.id
+    left join
+    (select sum(task_amount) pay,owner_info_id, id ,fit_task_id,task_amount,getmoney_time from t_fit_money   where status = 1  group by owner_info_id) m
+    on
+    m.owner_info_id = o.id
+    left join
+    t_fit_task_instance i
+    on
+    i.fit_order_id = f.id
+    group by o.id
+  </select>
+
+  <resultMap id="moneyDesc" type="org.chaoxuan.zeus.model.OwnerInfo">
+    <id column="oid" property="id"/>
+    <result column="username" property="userName"></result>
+    <association property="ownerHomeInfo" javaType="org.chaoxuan.zeus.model.OwnerHomeInfo">
+      <id column="hid" property="id"></id>
+      <result column="street" property="street"/>
+      <result column="community" property="community"/>
+    </association>
+    <association property="fitOrder" javaType="org.chaoxuan.zeus.model.FitOrder">
+      <id column="fid" property="id"></id>
+      <result column="contract_money" property="contractMoney"></result>
+      <result column="pay_money" property="payMoney"></result>
+      <result column="payTime" property="paytime"></result>
+      <result column="has_receivables" property="hasReceivables"></result>
+      <collection property="fitTaskInstance" ofType="org.chaoxuan.zeus.model.FitTaskInstance">
+        <id column="iid" property="id"></id>
+        <result column="title" property="title"></result>
+        <association property="fitMoney" javaType="org.chaoxuan.zeus.model.FitMoney">
+          <id column="mid" property="id"></id>
+          <result column="task_amount" property="taskAmount"></result>
+          <result column="getmoney_time" property="getmoneyTime"></result>
+          <result column="status" property="status"></result>
+        </association>
+      </collection>
+    </association>
+  </resultMap>
+  <select id="getMoneyDesc" parameterType="int" resultMap="moneyDesc">
+    select
+    o.id oid,
+    o.username,
+    h.id hid,
+    h.street,
+    h.community,
+    f.id fid,
+    f.pay_money,
+    f.payTime,
+    f.contract_money,
+    p.pay has_receivables,
+    m.id mid,
+    m.fit_task_id,
+    m.task_amount,
+    m.getmoney_time,
+    m.status,
+    i.id iid,
+    i.title
+    from
+    t_owner_info o
+    left join
+    t_owner_home_info h
+    on
+    o.id = h.userid
+    inner join
+    t_fit_order f
+    on
+    f.user_id = o.id
+    left JOIN
+    t_fit_task_instance i
+    on
+    i.fit_order_id = f.id
+    inner join
+    t_fit_money  m
+    on
+    m.owner_info_id = o.id
+    left join
+    (select sum(task_amount) pay,owner_info_id, id ,fit_task_id,task_amount,getmoney_time from t_fit_money where status = 1 group by owner_info_id ) p
+    on
+    p.owner_info_id = o.id
+    where o.id = #{id} and m.fit_task_id = i.id
+    order by m.status,getmoney_time
+  </select>
+  <!--全款收讫-->
+  <resultMap id="pullPayment" type="org.chaoxuan.zeus.model.OwnerInfo">
+    <id column="oid" property="id"/>
+    <result column="username" property="userName"></result>
+    <association property="ownerHomeInfo" javaType="org.chaoxuan.zeus.model.OwnerHomeInfo">
+      <id column="hid" property="id"></id>
+      <result column="street" property="street"/>
+      <result column="community" property="community"/>
+    </association>
+    <association property="fitOrder" javaType="org.chaoxuan.zeus.model.FitOrder">
+      <id column="fid" property="id"></id>
+      <result column="pay_money" property="payMoney"></result>
+      <result column="contract_money" property="contractMoney"></result>
+    </association>
+    <association property="fitMoney" javaType="org.chaoxuan.zeus.model.FitMoney">
+      <id column="mid" property="id"></id>
+      <result column="task_amount" property="taskAmount"></result>
+      <result column="getmoney_time" property="getmoneyTime"></result>
+      <result column="has_receivables" property="hasReceivables"></result>
+    </association>
+  </resultMap>
+  <select id="getPullPayment" resultMap="pullPayment">
+    select
+    o.id oid,
+    o.username,
+    h.id hid,
+    h.street,
+    h.community,
+    f.id fid,
+    f.contract_money,
+    f.pay_money,
+    m.pay has_receivables,
+    m.id mid,
+    m.fit_task_id,
+    m.task_amount,
+    m.getmoney_time
+    from
+    t_owner_info o
+    left join
+    t_owner_home_info h
+    on
+    o.id = h.userid
+    inner join
+    t_fit_order f
+    on
+    f.user_id = o.id
+    left join
+    (select sum(task_amount) pay,owner_info_id, id ,fit_task_id,task_amount,getmoney_time from t_fit_money   where status = 1  group by owner_info_id) m
+    on
+    m.owner_info_id = o.id
+    left join
+    t_fit_task_instance i
+    on
+    i.fit_order_id = f.id
+    where f.contract_money - (m.pay  + f.pay_money) = 0
+    group by o.id
+  </select>
+  <!--收款中-->
+  <resultMap id="makeCollections" type="org.chaoxuan.zeus.model.OwnerInfo">
+    <id column="oid" property="id"/>
+    <result column="username" property="userName"></result>
+    <association property="ownerHomeInfo" javaType="org.chaoxuan.zeus.model.OwnerHomeInfo">
+      <id column="hid" property="id"></id>
+      <result column="street" property="street"/>
+      <result column="community" property="community"/>
+    </association>
+    <association property="fitOrder" javaType="org.chaoxuan.zeus.model.FitOrder">
+      <id column="fid" property="id"></id>
+      <result column="pay_money" property="payMoney"></result>
+      <result column="contract_money" property="contractMoney"></result>
+    </association>
+    <association property="fitMoney" javaType="org.chaoxuan.zeus.model.FitMoney">
+      <id column="mid" property="id"></id>
+      <result column="task_amount" property="taskAmount"></result>
+      <result column="getmoney_time" property="getmoneyTime"></result>
+      <result column="has_receivables" property="hasReceivables"></result>
+    </association>
+  </resultMap>
+  <select id="getMakeCollections" resultMap="makeCollections">
+    select
+    o.id oid,
+    o.username,
+    h.id hid,
+    h.street,
+    h.community,
+    f.id fid,
+    f.contract_money,
+    f.pay_money,
+    m.pay has_receivables,
+    m.id mid,
+    m.fit_task_id,
+    m.task_amount,
+    m.getmoney_time
+    from
+    t_owner_info o
+    left join
+    t_owner_home_info h
+    on
+    o.id = h.userid
+    inner join
+    t_fit_order f
+    on
+    f.user_id = o.id
+    left join
+    (select sum(task_amount) pay,owner_info_id, id ,fit_task_id,task_amount,getmoney_time from t_fit_money   where status = 1  group by owner_info_id) m
+    on
+    m.owner_info_id = o.id
+    left join
+    t_fit_task_instance i
+    on
+    i.fit_order_id = f.id
+    where f.contract_money - (m.pay  + f.pay_money) != 0
+    group by o.id
+  </select>
+  <!--收款-->
+  <update id="updateMoney" parameterType="int">
+    update t_fit_money set status = 1 where id = #{id}
+  </update>
+  <!-- 查询管控列表测量任务 By Yurnero -->
+  <select id="findMeasureOrder" parameterType="java.util.Map" resultMap="findMeasureMap">
+    select
+    t1.id,
+    t1.username,
+    t2.address,
+    t2.street,
+    t2.community,
+    t3.id as measure_id,
+    t3.statuorder as status,
+    t3.sigdate as sign_at,
+    t3.ammoney as total_money,
+    t3.createTime as start_at,
+    t3.findate as end_at,
+    t3.measuredate
+    from
+    t_owner_info t1
+    left join
+    t_owner_home_info t2
+    on
+    t1.id = t2.userid
+    join
+    t_measure_order t3
+    on
+    t1.id = t3.userid
+    <where>
+      <if test="status != null and status !=0 ">
+        and t3.statuorder = #{status}
+      </if>
+      <if test="managerId != null">
+        and t3.manager_id = #{managerId}
+      </if>
+      <if test="ids != null">
+        <foreach collection="ids" item="item" open="and t1.id not in(" close=")" separator=",">
+          #{item}
+        </foreach>
+      </if>
+    </where>
+  </select>
+  <resultMap id="findMeasureMap" type="org.chaoxuan.zeus.page.PageOwner">
+    <id column="id" property="id"/>
+    <result column="username" property="username"/>
+    <result column="address" property="address"/>
+    <result column="street" property="street"/>
+    <result column="community" property="community"/>
+    <result column="measure_id" property="measureId"/>
+    <result column="status" property="status"/>
+    <result column="sign_at" property="signAt"/>
+    <result column="total_money" property="totalMoney"/>
+    <result column="start_at" property="startAt"/>
+    <result column="end_at" property="endAt"/>
+    <result column="measuredate" property="measureDate"/>
+  </resultMap>
+
+  <select id="find" parameterType="java.util.Map" resultMap="findMap">
+    select
+    *
+    from
+    t_owner_home_info t
+    <where>
+      <if test="userid != null">
+        t.userid = #{userid}
+      </if>
+    </where>
+  </select>
+  <resultMap id="findMap" type="org.chaoxuan.zeus.model.OwnerHomeInfo">
+    <id column="id" property="id"/>
+    <result column="userid" property="userId"/>
+    <result column="address" property="address"/>
+  </resultMap>
+  <select id="getByUserId" resultType="org.chaoxuan.zeus.model.OwnerInfo" parameterType="String">
+    select
+    <include refid="Base_Column_List"/>
+    from
+    t_owner_info
+    WHERE
+    userid=#{id}
+  </select>
+
+
+  <!--跟据业主登录的id查询管家信息-->
+  <select id="getManager" parameterType="int" resultType="org.chaoxuan.zeus.model.FitManager">
+    select
+    o.id,
+    f.id fitOrderid,
+    f.status,
+    m.statuorder,
+    g.name,
+    g.phone
+    from t_owner_info o
+    left join
+    t_measure_order m
+    on o.id = m.userid
+    left join
+    t_fit_manager g
+    on g.id = m.fitManagerId
+    left join
+    t_fit_order f
+    on f.user_id = o.id
+    where o.cx_user_id = #{id}
+  </select>
+  <resultMap id="BaseResultMap" type="org.chaoxuan.zeus.model.OwnerInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="userid" property="userId" jdbcType="VARCHAR" />
+    <result column="username" property="userName" jdbcType="VARCHAR" />
+    <result column="registerdate" property="registerDate" jdbcType="TIMESTAMP" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="usergrade" property="userGrade" jdbcType="VARCHAR" />
+    <result column="cx_user_id" property="cxUserId" jdbcType="INTEGER" />
+    <result column="passworld" property="passworld" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="personal_label" property="personalLabel" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="login" parameterType="java.util.Map" resultType="org.chaoxuan.zeus.model.OwnerInfo">
+    select
+    *
+    from
+    t_owner_info t
+    <where>
+      <if test="mobile != null">
+        and t.mobile = #{mobile}
+      </if>
+      <if test="password != null">
+        and t.password = #{password}
+      </if>
+    </where>
+  </select>
+  <!--
+  <insert id="insertSelective" parameterType="org.chaoxuan.zeus.model.OwnerInfo" >
+          insert into t_owner_info
+          <trim prefix="(" suffix=")" suffixOverrides="," >
+              <if test="id != null" >
+                  id,
+              </if>
+              <if test="userid != null" >
+                  userid,
+              </if>
+              <if test="username != null" >
+                  username,
+              </if>
+              <if test="registerdate != null" >
+                  registerdate,
+              </if>
+              <if test="remarks != null" >
+                  remarks,
+              </if>
+              <if test="usergrade != null" >
+                  usergrade,
+              </if>
+              <if test="cxUserId != null" >
+                  cx_user_id,
+              </if>
+              <if test="passworld != null" >
+                  passworld,
+              </if>
+              <if test="mobile != null" >
+                  mobile,
+              </if>
+              <if test="sex != null" >
+                  sex,
+              </if>
+              <if test="personalLabel != null" >
+                  personal_label,
+              </if>
+          </trim>
+          <trim prefix="values (" suffix=")" suffixOverrides="," >
+              <if test="id != null" >
+                  #{id,jdbcType=INTEGER},
+              </if>
+              <if test="userid != null" >
+                  #{userid,jdbcType=VARCHAR},
+              </if>
+              <if test="username != null" >
+                  #{username,jdbcType=VARCHAR},
+              </if>
+              <if test="registerdate != null" >
+                  #{registerdate,jdbcType=TIMESTAMP},
+              </if>
+              <if test="remarks != null" >
+                  #{remarks,jdbcType=VARCHAR},
+              </if>
+              <if test="usergrade != null" >
+                  #{usergrade,jdbcType=VARCHAR},
+              </if>
+              <if test="cxUserId != null" >
+                  #{cxUserId,jdbcType=INTEGER},
+              </if>
+              <if test="passworld != null" >
+                  #{passworld,jdbcType=VARCHAR},
+              </if>
+              <if test="mobile != null" >
+                  #{mobile,jdbcType=VARCHAR},
+              </if>
+              <if test="sex != null" >
+                  #{sex,jdbcType=INTEGER},
+              </if>
+              <if test="personalLabel != null" >
+                  #{personalLabel,jdbcType=VARCHAR},
+              </if>
+          </trim>
+      </insert>-->
+
+  <insert id="insertSelective" parameterType="org.chaoxuan.zeus.model.OwnerInfo">
+    insert into t_owner_info(mobile,password) values(#{mobile},#{password})
+  </insert>
+
+  <select id="getIdByMobile"  parameterType="org.chaoxuan.zeus.model.OwnerInfo" resultType="org.chaoxuan.zeus.model.OwnerInfo">
+    select * from t_owner_info where mobile = #{mobile}
+  </select>
+  <insert id="create" parameterType="org.chaoxuan.zeus.model.OwnerInfo" useGeneratedKeys="true" keyProperty="id">
+    <!--
+    @mbggenerated
+    -->
+    insert into t_owner_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        userid,
+      </if>
+      <if test="userName != null">
+        username,
+      </if>
+      <if test="registerDate != null">
+        registerdate,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+      <if test="userGrade != null">
+        usergrade,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="registerDate != null">
+        #{registerDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="userGrade != null">
+        #{userGrade,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+    <resultMap id="BaseResultMapWithHomeInfo" type="org.chaoxuan.zeus.model.OwnerInfo" extends="BaseResultMap">
+        <association property="ownerHomeInfo" javaType="org.chaoxuan.zeus.model.OwnerHomeInfo">
+            <id column="id_" jdbcType="INTEGER" property="id" />
+            <result column="userId_" jdbcType="INTEGER" property="userId" />
+            <result column="address" jdbcType="VARCHAR" property="address" />
+            <result column="budget" jdbcType="DOUBLE" property="budget" />
+            <result column="baseFit" jdbcType="DOUBLE" property="baseFit" />
+            <result column="furAndApp" jdbcType="DOUBLE" property="furAndApp" />
+            <result column="softFit" jdbcType="DOUBLE" property="softFit" />
+            <result column="loves" jdbcType="VARCHAR" property="loves" />
+            <result column="person" jdbcType="VARCHAR" property="person" />
+            <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+            <result column="area" jdbcType="INTEGER" property="area" />
+            <result column="houseDesc" jdbcType="VARCHAR" property="houseDesc" />
+            <result column="city" jdbcType="VARCHAR" property="city" />
+            <result column="district" jdbcType="VARCHAR" property="district" />
+            <result column="street" jdbcType="VARCHAR" property="street" />
+            <result column="community" jdbcType="VARCHAR" property="community" />
+            <result column="house_number" jdbcType="VARCHAR" property="houseNumber" />
+        </association>
+    </resultMap>
+    <sql id="Base_Column_List_Poor">
+        username, registerdate,usergrade
+    </sql>
+    <select id="getWithHomeInfoById" parameterType="int" resultMap="BaseResultMapWithHomeInfo">
+      SELECT
+      <include refid="Base_Column_List_Poor"/>,
+       own.id id,own.userid userid, home.address
+       FROM t_owner_info own INNER JOIN t_owner_home_info home ON home.userid=own.id
+       WHERE own.id=#{id}
+    </select>
+</mapper>

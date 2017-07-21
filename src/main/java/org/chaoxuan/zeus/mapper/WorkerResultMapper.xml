@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.chaoxuan.zeus.dao.WorkerResultMapper">
+    <resultMap id="BaseResultMap" type="org.chaoxuan.zeus.model.WorkerResult">
+        <!--
+        @mbggenerated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="worker_task_id" jdbcType="INTEGER" property="workerTaskId"/>
+        <result column="process_flow_id" jdbcType="INTEGER" property="processFlowId"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="org.chaoxuan.zeus.model.WorkerResult">
+        <!--
+        @mbggenerated
+        -->
+        <result column="attachs" jdbcType="LONGVARCHAR" property="attachs"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--
+        @mbggenerated
+        -->
+        id, worker_task_id, process_flow_id, remark, status, create_time
+    </sql>
+    <sql id="Blob_Column_List">
+        <!--
+        @mbggenerated
+        -->
+        attachs
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+        <!--
+        @mbggenerated
+        -->
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from t_worker_result
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--
+        @mbggenerated
+        -->
+        delete from t_worker_result
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="org.chaoxuan.zeus.model.WorkerResult">
+        <!--
+        @mbggenerated
+        -->
+        insert into t_worker_result (id, worker_task_id, process_flow_id,
+        remark, status, create_time,
+        attachs)
+        values (#{id,jdbcType=INTEGER}, #{workerTaskId,jdbcType=INTEGER}, #{processFlowId,jdbcType=INTEGER},
+        #{remark,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+        #{attachs,jdbcType=LONGVARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="org.chaoxuan.zeus.model.WorkerResult">
+        <!--
+        @mbggenerated
+        -->
+        insert into t_worker_result
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="workerTaskId != null">
+                worker_task_id,
+            </if>
+            <if test="processFlowId != null">
+                process_flow_id,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="attachs != null">
+                attachs,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="workerTaskId != null">
+                #{workerTaskId,jdbcType=INTEGER},
+            </if>
+            <if test="processFlowId != null">
+                #{processFlowId,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="attachs != null">
+                #{attachs,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="org.chaoxuan.zeus.model.WorkerResult">
+        <!--
+        @mbggenerated
+        -->
+        update t_worker_result
+        <set>
+            <if test="workerTaskId != null">
+                worker_task_id = #{workerTaskId,jdbcType=INTEGER},
+            </if>
+            <if test="processFlowId != null">
+                process_flow_id = #{processFlowId,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="attachs != null">
+                attachs = #{attachs,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.chaoxuan.zeus.model.WorkerResult">
+        <!--
+        @mbggenerated
+        -->
+        update t_worker_result
+        set worker_task_id = #{workerTaskId,jdbcType=INTEGER},
+        process_flow_id = #{processFlowId,jdbcType=INTEGER},
+        remark = #{remark,jdbcType=VARCHAR},
+        status = #{status,jdbcType=INTEGER},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        attachs = #{attachs,jdbcType=LONGVARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="org.chaoxuan.zeus.model.WorkerResult">
+        <!--
+        @mbggenerated
+        -->
+        update t_worker_result
+        set worker_task_id = #{workerTaskId,jdbcType=INTEGER},
+        process_flow_id = #{processFlowId,jdbcType=INTEGER},
+        remark = #{remark,jdbcType=VARCHAR},
+        status = #{status,jdbcType=INTEGER},
+        create_time = #{createTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="find" parameterType="java.util.Map" resultMap="ResultMapWithBLOBs">
+        select
+        t1.*,
+        t2.title
+        from
+        t_worker_result t1
+        join
+        t_process_flow t2
+        on
+        t1.process_flow_id = t2.id
+        <where>
+            <if test="id != null">
+                and t1.id = #{id}
+            </if>
+        </where>
+    </select>
+    <resultMap id="findMap" type="org.chaoxuan.zeus.model.WorkerResult" extends="ResultMapWithBLOBs">
+        <result column="title" property="title"/>
+    </resultMap>
+
+</mapper>

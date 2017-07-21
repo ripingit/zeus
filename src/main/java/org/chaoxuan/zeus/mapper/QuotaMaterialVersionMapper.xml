@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.chaoxuan.zeus.dao.QuotaMaterialVersionMapper">
+	<resultMap id="BaseResultMap" type="org.chaoxuan.zeus.model.QuotaMaterialVersion">
+		<!-- @mbggenerated -->
+		<id column="id" property="id" />
+		<result column="version" property="version" />
+		<result column="unit_price" property="unitPrice" />
+		<result column="area" property="area" />
+		<result column="quota_material_id" property="quotaMaterialId" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		<!-- @mbggenerated -->
+		id, version, unit_price, area, quota_material_id
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		<!-- @mbggenerated -->
+		select
+		<include refid="Base_Column_List" />
+		from t_quota_material_version
+		where id = #{id}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		<!-- @mbggenerated -->
+		delete from t_quota_material_version
+		where id = #{id}
+	</delete>
+	<insert id="insert" parameterType="org.chaoxuan.zeus.model.QuotaMaterialVersion">
+		<!-- @mbggenerated -->
+		insert into t_quota_material_version (id, version, unit_price,
+		area, quota_material_id)
+		values (#{id}, #{version}, #{unitPrice},
+		#{area}, #{quotaMaterialId})
+	</insert>
+	<insert id="insertSelective" parameterType="org.chaoxuan.zeus.model.QuotaMaterialVersion">
+		<!-- @mbggenerated -->
+		insert into t_quota_material_version
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="version != null">
+				version,
+			</if>
+			<if test="unitPrice != null">
+				unit_price,
+			</if>
+			<if test="area != null">
+				area,
+			</if>
+			<if test="quotaMaterialId != null">
+				quota_material_id,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="version != null">
+				#{version},
+			</if>
+			<if test="unitPrice != null">
+				#{unitPrice},
+			</if>
+			<if test="area != null">
+				#{area},
+			</if>
+			<if test="quotaMaterialId != null">
+				#{quotaMaterialId},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="org.chaoxuan.zeus.model.QuotaMaterialVersion">
+		<!-- @mbggenerated -->
+		update t_quota_material_version
+		<set>
+			<if test="version != null">
+				version = #{version},
+			</if>
+			<if test="unitPrice != null">
+				unit_price = #{unitPrice},
+			</if>
+			<if test="area != null">
+				area = #{area},
+			</if>
+			<if test="quotaMaterialId != null">
+				quota_material_id = #{quotaMaterialId},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="org.chaoxuan.zeus.model.QuotaMaterialVersion">
+		<!-- @mbggenerated -->
+		update t_quota_material_version
+		set version = #{version},
+		unit_price = #{unitPrice},
+		area = #{area},
+		quota_material_id = #{quotaMaterialId}
+		where id = #{id}
+	</update>
+	
+	<select id="findByMap" parameterType="java.util.Map" resultMap="findMap">
+		select
+			t1.*,
+			t2.id as id_,
+			t2.category_id,
+			t2.category_name,
+			t2.unit,
+			t2.title
+		from
+			t_quota_material_version t1
+		join 
+			t_quota_material t2
+		on 
+			t1.quota_material_id = t2.id
+		<where>
+			<if test="ids != null">
+				<foreach collection="ids" item="id" open="and t1.id in(" close=")" separator=",">
+					#{id}
+				</foreach>
+			</if>
+		</where>
+	</select>
+	<resultMap type="org.chaoxuan.zeus.model.QuotaMaterialVersion" id="findMap" extends="BaseResultMap">
+		<association property="quotaMaterial" javaType="org.chaoxuan.zeus.model.QuotaMaterial">
+			<id column="id_" property="id"/>
+			<result column="category_id" property="categoryId"/>
+			<result column="category_name" property="categoryName"/>
+			<result column="unit" property="unit"/>
+			<result column="title" property="title"/>
+		</association>
+	</resultMap>
+</mapper>

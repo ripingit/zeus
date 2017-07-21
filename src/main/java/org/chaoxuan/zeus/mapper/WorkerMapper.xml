@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.chaoxuan.zeus.dao.WorkerMapper">
+    <resultMap id="BaseResultMap" type="org.chaoxuan.zeus.model.Worker">
+        <!--
+        @mbggenerated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="sex" jdbcType="INTEGER" property="sex" />
+        <result column="type_ids" jdbcType="VARCHAR" property="typeIds" />
+        <result column="type_names" jdbcType="VARCHAR" property="typeNames" />
+        <result column="work_years" jdbcType="VARCHAR" property="workYears" />
+        <result column="cert" jdbcType="VARCHAR" property="cert" />
+        <result column="personal_label" jdbcType="VARCHAR" property="personalLabel" />
+        <result column="task_id" jdbcType="INTEGER" property="taskId" />
+        <result column="head" jdbcType="VARCHAR" property="head" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--
+        @mbggenerated
+        -->
+        id, name, mobile, password, sex, type_ids, type_names, work_years, cert, personal_label, head
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--
+        @mbggenerated
+        -->
+        select
+        <include refid="Base_Column_List" />
+        from t_worker
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--
+        @mbggenerated
+        -->
+        delete from t_worker
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="org.chaoxuan.zeus.model.Worker">
+        <!--
+        @mbggenerated
+        -->
+        insert into t_worker (id, name, mobile,
+        password, sex, type_ids,
+        type_names, work_years, cert,
+        personal_label, head)
+        values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR},
+        #{password,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, #{typeIds,jdbcType=VARCHAR},
+        #{typeNames,jdbcType=VARCHAR}, #{workYears,jdbcType=VARCHAR}, #{cert,jdbcType=VARCHAR},
+        #{personalLabel,jdbcType=VARCHAR}, #{head,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="org.chaoxuan.zeus.model.Worker">
+        <!--
+        @mbggenerated
+        -->
+        insert into t_worker
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="mobile != null">
+                mobile,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="typeIds != null">
+                type_ids,
+            </if>
+            <if test="typeNames != null">
+                type_names,
+            </if>
+            <if test="workYears != null">
+                work_years,
+            </if>
+            <if test="cert != null">
+                cert,
+            </if>
+            <if test="personalLabel != null">
+                personal_label,
+            </if>
+            <if test="head != null">
+                head,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+                #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                #{sex,jdbcType=INTEGER},
+            </if>
+            <if test="typeIds != null">
+                #{typeIds,jdbcType=VARCHAR},
+            </if>
+            <if test="typeNames != null">
+                #{typeNames,jdbcType=VARCHAR},
+            </if>
+            <if test="workYears != null">
+                #{workYears,jdbcType=VARCHAR},
+            </if>
+            <if test="cert != null">
+                #{cert,jdbcType=VARCHAR},
+            </if>
+            <if test="personalLabel != null">
+                #{personalLabel,jdbcType=VARCHAR},
+            </if>
+            <if test="head != null">
+                #{head,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="org.chaoxuan.zeus.model.Worker">
+        <!--
+        @mbggenerated
+        -->
+        update t_worker
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+                mobile = #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                sex = #{sex,jdbcType=INTEGER},
+            </if>
+            <if test="typeIds != null">
+                type_ids = #{typeIds,jdbcType=VARCHAR},
+            </if>
+            <if test="typeNames != null">
+                type_names = #{typeNames,jdbcType=VARCHAR},
+            </if>
+            <if test="workYears != null">
+                work_years = #{workYears,jdbcType=VARCHAR},
+            </if>
+            <if test="cert != null">
+                cert = #{cert,jdbcType=VARCHAR},
+            </if>
+            <if test="personalLabel != null">
+                personal_label = #{personalLabel,jdbcType=VARCHAR},
+            </if>
+            <if test="head != null">
+                head = #{head,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="org.chaoxuan.zeus.model.Worker">
+        <!--
+        @mbggenerated
+        -->
+        update t_worker
+        set name = #{name,jdbcType=VARCHAR},
+        mobile = #{mobile,jdbcType=VARCHAR},
+        password = #{password,jdbcType=VARCHAR},
+        sex = #{sex,jdbcType=INTEGER},
+        type_ids = #{typeIds,jdbcType=VARCHAR},
+        type_names = #{typeNames,jdbcType=VARCHAR},
+        work_years = #{workYears,jdbcType=VARCHAR},
+        cert = #{cert,jdbcType=VARCHAR},
+        personal_label = #{personalLabel,jdbcType=VARCHAR},
+        head = #{head,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="update" parameterType="java.util.Map">
+        update
+          t_worker t
+        <set>
+            <if test="password != null">
+                t.password = #{password},
+            </if>
+        </set>
+        <where>
+            <if test="mobile != null">
+                and t.mobile = #{mobile}
+            </if>
+        </where>
+    </update>
+
+    <select id="find" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+            *
+        from
+            t_worker t
+        <where>
+            <if test="mobile != null">
+                and t.mobile = #{mobile}
+            </if>
+            <if test="password != null">
+                and t.password = #{password}
+            </if>
+        </where>
+    </select>
+    <select id="searchByTime" parameterType="Map" resultMap="BaseResultMap">
+        SELECT * FROM t_worker tw WHERE tw.id NOT IN(
+        SELECT
+        t1.id
+        FROM
+        t_worker t1
+        LEFT JOIN
+        t_worker_rest t2
+        ON
+        t1.id = t2.worker_id
+        LEFT JOIN
+        t_worker_task t3
+        ON
+        t1.id = t3.worker_id
+        WHERE
+        (#{start} &gt; t2.start_at AND #{start} &lt; t2.end_at)
+        OR
+        (#{end} &gt; t2.start_at AND #{end} &lt; t2.end_at)
+        OR
+        (#{start} &gt; t3.start_at AND #{start} &lt; t3.end_at)
+        OR
+        (#{end} &gt; t3.start_at AND #{end} &lt; t3.end_at)
+        OR
+        (t2.start_at &gt; #{start} AND t2.end_at &lt; #{end})
+        OR
+        (t3.start_at &gt; #{start} AND t3.end_at &lt; #{end})
+        GROUP BY t1.id)
+    </select>
+    <select id="searchSentListByRequirementId" resultMap="BaseResultMap" parameterType="int">
+        SELECT worker.*,task.id task_id   FROM t_worker_task task JOIN t_worker worker ON worker.id=task.worker_id
+        WHERE task.requirement_id=#{id}
+    </select>
+</mapper>

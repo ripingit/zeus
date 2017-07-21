@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.chaoxuan.zeus.dao.FitManagerMapper">
+    <resultMap id="BaseResultMap" type="org.chaoxuan.zeus.model.FitManager">
+        <!--
+        @mbggenerated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="photo" jdbcType="VARCHAR" property="photo"/>
+        <result column="area" jdbcType="VARCHAR" property="area"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--
+        @mbggenerated
+        -->
+        id, name, phone,photo
+    </sql>
+    <sql id="Base_Column_List_Poor">
+        <!--
+        @mbggenerated
+        -->
+        name, phone,photo
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--
+        @mbggenerated
+        -->
+        select
+        <include refid="Base_Column_List"/>
+        from t_fit_manager
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="getFitManagerByOrderId" parameterType="int" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List_Poor"/>,
+        o.id id
+        FROM t_fit_manager m INNER JOIN t_fit_order o
+        ON o.manager_id=m.id
+        WHERE o.id=#{id}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--
+        @mbggenerated
+        -->
+        delete from t_fit_manager
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="org.chaoxuan.zeus.model.FitManager">
+        <!--
+        @mbggenerated
+        -->
+        insert into t_fit_manager (id, name, phone
+        )
+        values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="org.chaoxuan.zeus.model.FitManager">
+        <!--
+        @mbggenerated
+        -->
+        update t_fit_manager
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="login" parameterType="java.util.Map" resultType="org.chaoxuan.zeus.model.FitManager">
+        select
+        *
+        from
+        t_fit_manager t
+        <where>
+            <if test="mobile != null">
+                and phone = #{mobile}
+            </if>
+            <if test="password != null">
+                and t.password = #{password}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertSelective" parameterType="org.chaoxuan.zeus.model.FitManager">
+            insert into t_fit_manager(phone,password) values(#{phone},#{password})
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="org.chaoxuan.zeus.model.FitManager">
+        <!--
+        @mbggenerated
+        -->
+        update t_fit_manager
+        set name = #{name,jdbcType=VARCHAR},
+        phone = #{phone,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+
+    <select id="getIdByMobile" parameterType="org.chaoxuan.zeus.model.FitManager"
+            resultType="org.chaoxuan.zeus.model.FitManager">
+        select * from t_fit_manager where phone = #{phone}
+    </select>
+
+    <!--===========我是华丽的分割线============================================================-->
+    <!--===========我是华丽的分割线============================================================-->
+    <!--===========我是华丽的分割线============================================================-->
+    <!--===========我是华丽的分割线============================================================-->
+    <!--===========我是华丽的分割线============================================================-->
+    <!--===========我是华丽的分割线============================================================-->
+    <select id="searchByArea" parameterType="String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_fit_manager
+        where 1=1
+        <if test="_parameter!='*'.toString()">
+            and area like '%${_parameter}%'
+        </if>
+    </select>
+
+</mapper>

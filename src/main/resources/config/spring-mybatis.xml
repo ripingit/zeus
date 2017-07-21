@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop" xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx 
+	 	http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 1. 数据源 : DriverManagerDataSource -->
+    <bean id="dataSource"
+          class="org.apache.tomcat.jdbc.pool.DataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="${url}"/>
+        <property name="username" value="${username}"/>
+        <property name="password" value="${password}"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="true"/>
+        <property name="testOnReturn" value="false"/>
+        <property name="validationQuery" value="SELECT 1"/>
+        <property name="validationInterval" value="30000"/>
+        <property name="timeBetweenEvictionRunsMillis" value="30000"/>
+        <property name="maxActive" value="100"/>
+        <property name="minIdle" value="2"/>
+        <property name="maxWait" value="10000"/>
+        <property name="initialSize" value="4"/>
+        <property name="removeAbandonedTimeout" value="60"/>
+        <property name="removeAbandoned" value="true"/>
+        <property name="logAbandoned" value="true"/>
+        <property name="minEvictableIdleTimeMillis" value="30000"/>
+        <property name="jmxEnabled" value="true"/>
+    </bean>
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"></property>
+        <property name="configLocation" value="classpath:mybatis/SqlMapConfig.xml"/>
+        <!-- 自动扫描mappers.xml文件 -->
+        <property name="mapperLocations">
+            <array>
+                <value>classpath:org/chaoxuan/zeus/mapper/*.xml</value>
+                <value>classpath:org/chaoxuan/domain/mapping/*.xml</value>
+            </array>
+        </property>
+    </bean>
+    <!--2. dao接口配置-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="org.chaoxuan.domain.dao,org.chaoxuan.zeus.dao"></property>
+        <!-- <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>-->
+    </bean>
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+    <!-- 拦截器方式配置事物 -->
+    <tx:advice id="transactionAdvice" transaction-manager="txManager">
+        <tx:attributes>
+            <tx:method name="*" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+    <aop:config>
+        <aop:pointcut
+                expression="(execution(* org.chaoxuan.zeus..*.*(..)) or execution(* org.chaoxuan.service..*.*(..)))"
+                id="transactionPointcut"/>
+        <aop:advisor advice-ref="transactionAdvice" pointcut-ref="transactionPointcut"/>
+    </aop:config>
+    <bean id="propertyPlaceHolderConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:config/common.properties</value>
+            </list>
+        </property>
+        <property name="ignoreUnresolvablePlaceholders">
+            <value>true</value>
+        </property>
+    </bean>
+    <!-- 扫描注解配置的包 -->
+    <context:component-scan base-package="org.chaoxuan.service,org.chaoxuan.zeus.service,org.chaoxuan.zeus.dao"
+    />
+</beans>

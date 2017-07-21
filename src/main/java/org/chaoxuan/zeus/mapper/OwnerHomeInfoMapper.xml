@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.chaoxuan.zeus.dao.OwnerHomeInfoMapper">
+  <resultMap id="BaseResultMap" type="org.chaoxuan.zeus.model.OwnerHomeInfo">
+    <!--
+    @mbggenerated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="userId" jdbcType="INTEGER" property="userId" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="budget" jdbcType="DOUBLE" property="budget" />
+    <result column="baseFit" jdbcType="DOUBLE" property="baseFit" />
+    <result column="furAndApp" jdbcType="DOUBLE" property="furAndApp" />
+    <result column="softFit" jdbcType="DOUBLE" property="softFit" />
+    <result column="loves" jdbcType="VARCHAR" property="loves" />
+    <result column="person" jdbcType="VARCHAR" property="person" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="area" jdbcType="INTEGER" property="area" />
+    <result column="houseDesc" jdbcType="VARCHAR" property="houseDesc" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="district" jdbcType="VARCHAR" property="district" />
+    <result column="street" jdbcType="VARCHAR" property="street" />
+    <result column="community" jdbcType="VARCHAR" property="community" />
+    <result column="house_number" jdbcType="VARCHAR" property="houseNumber" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+    @mbggenerated
+    -->
+    id, userId, address, budget, baseFit, furAndApp, softFit, loves, person, remarks, 
+    area, houseDesc, city, district, street, community, house_number
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--
+    @mbggenerated
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from t_owner_home_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--
+    @mbggenerated
+    -->
+    delete from t_owner_home_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.chaoxuan.zeus.model.OwnerHomeInfo">
+    <!--
+    @mbggenerated
+    -->
+    insert into t_owner_home_info (id, userId, address, 
+      budget, baseFit, furAndApp, 
+      softFit, loves, person, 
+      remarks, area, houseDesc, 
+      city, district, street, 
+      community, house_number)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, 
+      #{budget,jdbcType=DOUBLE}, #{baseFit,jdbcType=DOUBLE}, #{furAndApp,jdbcType=DOUBLE}, 
+      #{softFit,jdbcType=DOUBLE}, #{loves,jdbcType=VARCHAR}, #{person,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=VARCHAR}, #{area,jdbcType=INTEGER}, #{houseDesc,jdbcType=VARCHAR}, 
+      #{city,jdbcType=VARCHAR}, #{district,jdbcType=VARCHAR}, #{street,jdbcType=VARCHAR}, 
+      #{community,jdbcType=VARCHAR}, #{houseNumber,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.chaoxuan.zeus.model.OwnerHomeInfo">
+    <!--
+    @mbggenerated
+    -->
+    insert into t_owner_home_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        userId,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="budget != null">
+        budget,
+      </if>
+      <if test="baseFit != null">
+        baseFit,
+      </if>
+      <if test="furAndApp != null">
+        furAndApp,
+      </if>
+      <if test="softFit != null">
+        softFit,
+      </if>
+      <if test="loves != null">
+        loves,
+      </if>
+      <if test="person != null">
+        person,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+      <if test="area != null">
+        area,
+      </if>
+      <if test="houseDesc != null">
+        houseDesc,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="district != null">
+        district,
+      </if>
+      <if test="street != null">
+        street,
+      </if>
+      <if test="community != null">
+        community,
+      </if>
+      <if test="houseNumber != null">
+        house_number,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="budget != null">
+        #{budget,jdbcType=DOUBLE},
+      </if>
+      <if test="baseFit != null">
+        #{baseFit,jdbcType=DOUBLE},
+      </if>
+      <if test="furAndApp != null">
+        #{furAndApp,jdbcType=DOUBLE},
+      </if>
+      <if test="softFit != null">
+        #{softFit,jdbcType=DOUBLE},
+      </if>
+      <if test="loves != null">
+        #{loves,jdbcType=VARCHAR},
+      </if>
+      <if test="person != null">
+        #{person,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        #{area,jdbcType=INTEGER},
+      </if>
+      <if test="houseDesc != null">
+        #{houseDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null">
+        #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="street != null">
+        #{street,jdbcType=VARCHAR},
+      </if>
+      <if test="community != null">
+        #{community,jdbcType=VARCHAR},
+      </if>
+      <if test="houseNumber != null">
+        #{houseNumber,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.chaoxuan.zeus.model.OwnerHomeInfo">
+    <!--
+    @mbggenerated
+    -->
+    update t_owner_home_info
+    <set>
+      <if test="userId != null">
+        userId = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="budget != null">
+        budget = #{budget,jdbcType=DOUBLE},
+      </if>
+      <if test="baseFit != null">
+        baseFit = #{baseFit,jdbcType=DOUBLE},
+      </if>
+      <if test="furAndApp != null">
+        furAndApp = #{furAndApp,jdbcType=DOUBLE},
+      </if>
+      <if test="softFit != null">
+        softFit = #{softFit,jdbcType=DOUBLE},
+      </if>
+      <if test="loves != null">
+        loves = #{loves,jdbcType=VARCHAR},
+      </if>
+      <if test="person != null">
+        person = #{person,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        area = #{area,jdbcType=INTEGER},
+      </if>
+      <if test="houseDesc != null">
+        houseDesc = #{houseDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null">
+        district = #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="street != null">
+        street = #{street,jdbcType=VARCHAR},
+      </if>
+      <if test="community != null">
+        community = #{community,jdbcType=VARCHAR},
+      </if>
+      <if test="houseNumber != null">
+        house_number = #{houseNumber,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.chaoxuan.zeus.model.OwnerHomeInfo">
+    <!--
+    @mbggenerated
+    -->
+    update t_owner_home_info
+    set userId = #{userId,jdbcType=INTEGER},
+      address = #{address,jdbcType=VARCHAR},
+      budget = #{budget,jdbcType=DOUBLE},
+      baseFit = #{baseFit,jdbcType=DOUBLE},
+      furAndApp = #{furAndApp,jdbcType=DOUBLE},
+      softFit = #{softFit,jdbcType=DOUBLE},
+      loves = #{loves,jdbcType=VARCHAR},
+      person = #{person,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      area = #{area,jdbcType=INTEGER},
+      houseDesc = #{houseDesc,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      district = #{district,jdbcType=VARCHAR},
+      street = #{street,jdbcType=VARCHAR},
+      community = #{community,jdbcType=VARCHAR},
+      house_number = #{houseNumber,jdbcType=VARCHAR},
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="list" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM
+    t_owner_home_info
+  </select>
+  <select id="searchByUserId" resultMap="BaseResultMap" parameterType="int">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM
+    t_owner_home_info
+    where userId=#{id}
+  </select>
+</mapper>

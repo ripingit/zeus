@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.chaoxuan.zeus.dao.FitTaskMapper">
+
+    <resultMap id="BaseResultMap" type="org.chaoxuan.zeus.model.FitTask">
+        <!-- @mbggenerated -->
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="category" property="category"/>
+        <result column="fit_standard_id" property="fitStandardId"/>
+        <result column="phase" property="phase"/>
+        <result column="version" property="version"/>
+        <result column="sequence" property="sequence"/>
+        <result column="unit" property="unit"/>
+    </resultMap>
+
+    <resultMap type="org.chaoxuan.zeus.model.FitTask" id="FitStandardResultMap" extends="BaseResultMap">
+        <association property="fitStandard" javaType="org.chaoxuan.zeus.model.FitStandard">
+            <id column="_id" property="id"/>
+            <result column="process_flow" property="processFlow"/>
+        </association>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        <!-- @mbggenerated -->
+        id,title, category, fit_standard_id, phase, version, sequence, unit
+    </sql>
+    <sql id="Base_Column_Lack">
+        <!-- @mbggenerated -->
+        title, category, fit_standard_id, phase, version, sequence, unit
+    </sql>
+
+    <!-- 添加任务 -->
+    <insert id="insert" parameterType="org.chaoxuan.zeus.model.FitTask" useGeneratedKeys="true" keyProperty="id">
+		insert into t_fit_task (title, category,
+		standard, phase, version, sequence, fit_standard_id, unit
+		)
+		values ( #{title}, #{category},
+		#{standard}, #{phase}, #{version},
+		#{sequence}, #{fitStandardId}, #{unit}
+		)
+	</insert>
+    <!-- 获得一个版本下的最大阶段 -->
+    <select id="selectOneVersionMaxPhase" resultType="java.lang.Integer">
+		select max(phase) from t_fit_task where version=#{version}
+	</select>
+    <!-- 获得一个阶段下的最大任务次序 -->
+    <select id="selectOnePhaseMaxSequence" resultType="java.lang.Integer">
+		select max(sequence) from t_fit_task where phase=#{phase}
+	</select>
+
+    <!-- 查询所有任务 -->
+    <select id="selectBy" resultType="org.chaoxuan.zeus.model.FitTask" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_fit_task
+        where 1=1
+        <if test="title != null">
+            and title = #{title}
+        </if>
+        <if test="category != null">
+            and category = #{category}
+        </if>
+        <if test="phase != null">
+            and phase = #{phase}
+        </if>
+        <if test="version != null">
+            and version = #{version}
+        </if>
+        <if test="sequence != null">
+            and sequence = #{sequence}
+        </if>
+        <if test="fitStandardId != null">
+            and fit_standard_id = #{fitStandardId}
+        </if>
+        <if test="unit != null">
+            and unit = #{unit}
+        </if>
+    </select>
+
+    <!-- 查询同一阶级任务下的任务 -->
+    <select id="selectOnePhaseBackTask" resultType="org.chaoxuan.zeus.model.FitTask" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_fit_task where phase=#{phase} and sequence >=#{sequence}
+    </select>
+    <!-- 修改产品 -->
+    <update id="updateByPrimaryKeySelective" parameterType="org.chaoxuan.zeus.model.FitTask">
+        update t_fit_task
+        <set>
+            <if test="title != null">
+                title = #{title},
+            </if>
+            <if test="category != null">
+                category = #{category},
+            </if>
+            <if test="fitStandardId != null">
+                fit_standard_id = #{fitStandardId},
+            </if>
+            <if test="phase != null">
+                phase = #{phase},
+            </if>
+            <if test="version != null">
+                version = #{version},
+            </if>
+            <if test="sequence != null">
+                sequence = #{sequence},
+            </if>
+            <if test="fitStandardId != null">
+                fit_standard_id = #{fitStandardId},
+            </if>
+            <if test="unit != null">
+                unit = #{unit},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!-- 根据版本、阶段查询对应的施工任务 -->
+    <select id="selectTaskByVersionAndPhase" resultType="org.chaoxuan.zeus.model.FitTask" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_fit_task
+        where version = #{version} and phase = #{phase} order by sequence
+    </select>
+
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!-- @mbggenerated -->
+        select
+        <include refid="Base_Column_List"/>
+        from t_fit_task
+        where id = #{id}
+    </select>
+
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        <!-- @mbggenerated -->
+        delete from t_fit_task
+        where id = #{id}
+    </delete>
+
+
+    <insert id="insertSelective" parameterType="org.chaoxuan.zeus.model.FitTask" useGeneratedKeys="true"
+            keyProperty="id">
+        <!-- @mbggenerated -->
+        insert into t_fit_task
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null">
+                title,
+            </if>
+            <if test="category != null">
+                category,
+            </if>
+            <if test="phase != null">
+                phase,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="sequence != null">
+                sequence,
+            </if>
+            <if test="fitStandardId != null">
+                fit_standard_id,
+            </if>
+            <if test="unit != null">
+                unit,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null">
+                #{title},
+            </if>
+            <if test="category != null">
+                #{category},
+            </if>
+            <if test="phase != null">
+                #{phase},
+            </if>
+            <if test="version != null">
+                #{version},
+            </if>
+            <if test="sequence != null">
+                #{sequence},
+            </if>
+            <if test="fitStandardId != null">
+                #{fitStandardId},
+            </if>
+            <if test="unit != null">
+                #{unit},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="org.chaoxuan.zeus.model.FitTask">
+        <!-- @mbggenerated -->
+        update t_fit_task
+        set title = #{title},
+        category = #{category},
+        phase = #{phase},
+        version = #{version},
+        fit_standard_id = #{fitStandardId}
+        sequence=#{sequence}
+        unit=#{unit}
+        where id = #{id}
+    </update>
+
+
+    <select id="findByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        t_fit_task t
+    </select>
+
+    <select id="queryPhaseListByVersion" parameterType="String" resultType="Integer">
+		SELECT DISTINCT PHASE FROM t_fit_task WHERE 1=1 AND VERSION=#{version} ORDER BY PHASE
+	</select>
+
+    <select id="searchByVersionAndPhase" parameterType="org.chaoxuan.zeus.model.FitTask" resultMap="FitStandardResultMap">
+		SELECT t.*,s.id _id, s.process_flow FROM t_fit_task t JOIN t_fit_standard s
+		ON t.fit_standard_id=s.id
+		WHERE 1=1
+		<if test="version!=null and version!=''">
+            and   t.version=#{version}
+        </if>
+        <if test="phase!=null and phase!=''">
+            AND t.phase=#{phase}
+        </if>
+
+	</select>
+
+    <!-- 根据当前版本查询阶段个数 By Yurnero -->
+    <select id="getCountPhaseByVersion" parameterType="java.lang.String" resultType="java.lang.Integer">
+		select count(distinct t.phase) from t_fit_task t where version = #{version}
+	</select>
+
+    <!-- 查找当前版本当前阶段下的次序个数 By Yurnero -->
+    <select id="getCountSequenceByVersionAndPhase" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(t.sequence) from t_fit_task t where t.version = #{version} and t.phase = #{phase}
+	</select>
+
+    <select id="querySequenceListBy" parameterType="org.chaoxuan.zeus.model.FitTask" resultType="Integer">
+		SELECT sequence FROM t_fit_task WHERE VERSION=#{version} AND PHASE=#{phase} ORDER BY SEQUENCE
+	</select>
+
+    <!-- 根据当前版本当前阶段获取实际阶段 By Yurnero -->
+    <select id="getActualPhaseByVersionAndPhase" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(*) + 1 from (
+			select distinct t.phase from t_fit_task t where t.phase &lt; #{phase} and t.version = #{version} order by t.phase asc
+		)temp
+	</select>
+
+    <!-- 根据当前版本当前阶段当前次序获取实际次序 By Yurnero -->
+    <select id="getActualSequenceByVersionAndPhaseAndSequence" parameterType="java.util.Map"
+            resultType="java.lang.Integer">
+		select count(*) + 1 from (
+			select distinct t.sequence from t_fit_task t where t.sequence &lt; #{sequence} and t.version = #{version} and t.phase = #{phase} order by t.sequence asc
+		)temp
+	</select>
+
+    <!-- 更新阶段 By Yurnero -->
+    <update id="updatePhaseByVersionAndPhase" parameterType="java.util.Map">
+		update t_fit_task t set t.phase = t.phase + #{num} where t.version = #{version} and t.phase >= #{phase}
+	</update>
+
+    <!-- 更新次序 By Yurnero -->
+    <update id="updateSequenceByVersionAndPhaseAndSequence" parameterType="java.util.Map">
+        update
+        t_fit_task t
+        set
+        t.sequence = t.sequence + #{num}
+        <where>
+            <if test="version != null">
+                and t.version = #{version}
+            </if>
+            <if test="phase != null">
+                and t.phase = #{phase}
+            </if>
+            <if test="sequence != null">
+                and t.sequence >= #{sequence}
+            </if>
+            <if test="smllNewSequence != null">
+                and t.sequence >= #{smllNewSequence}
+            </if>
+            <if test="smllOldSequence != null">
+                and t.sequence &lt; #{smllOldSequence}
+            </if>
+            <if test="bigOldSequence != null">
+                and t.sequence > #{bigOldSequence}
+            </if>
+            <if test="bigNewSequence != null">
+                and t.sequence &lt;= #{bigNewSequence}
+            </if>
+        </where>
+    </update>
+
+    <select id="findFitTaskAndConfigure" parameterType="java.util.Map" resultMap="findFitTaskAndConfigureMap">
+        select
+        *
+        from
+        t_fit_task t
+        <where>
+            <if test="version != null">
+                t.version = #{version}
+            </if>
+            <if test="id != null">
+                t.id = #{id}
+            </if>
+        </where>
+    </select>
+    <resultMap type="org.chaoxuan.zeus.model.FitTask" id="findFitTaskAndConfigureMap" extends="BaseResultMap">
+        <collection property="listFitTaskMachine" column="id"
+                    select="org.chaoxuan.zeus.dao.FitTaskMachineMapper.findByFitTaskId"/>
+        <collection property="listFitTaskMaterial" column="id"
+                    select="org.chaoxuan.zeus.dao.FitTaskMaterialMapper.findByFitTaskId"/>
+        <collection property="listFitTaskWorker" column="id"
+                    select="org.chaoxuan.zeus.dao.FitTaskWorkerMapper.findByFitTaskId"/>
+        <collection property="listFitTaskArea" column="id"
+                    select="org.chaoxuan.zeus.dao.FitTaskAreaMapper.findByFitTaskId"/>
+        <collection property="listFitTaskMeasure" column="id"
+                    select="org.chaoxuan.zeus.dao.FitTaskMeasureMapper.findByFitTaskId"/>
+    </resultMap>
+    <select id="searchByIds"  resultMap="BaseResultMap">
+        SELECT * FROM t_fit_task WHERE id IN
+        <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="list" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_Lack"/>,task.id id
+        FROM t_fit_task task JOIN t_fit_standard stan
+        ON task.fit_standard_id=stan.id
+    </select>
+    <insert id="insertBatch" parameterType="java.util.List">
+        insert into t_fit_task (title, category, worker,unit, material,machine,fit_standard_id,version,phase,sequence)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.title}, #{item.category}, #{item.worker}, #{item.unit},#{item.material},
+            #{item.machine},#{item.fitStandardId},#{item.version},#{item.phase},#{item.sequence})
+        </foreach>
+    </insert>
+</mapper>

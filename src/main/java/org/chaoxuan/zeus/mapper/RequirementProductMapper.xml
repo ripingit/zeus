@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.chaoxuan.zeus.dao.RequirementProductMapper">
+  <resultMap id="BaseResultMap" type="org.chaoxuan.zeus.model.RequirementProduct">
+    <!--
+    @mbggenerated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="product_id" jdbcType="INTEGER" property="productId" />
+    <result column="quantity" jdbcType="REAL" property="quantity" />
+    <result column="production_completion_time" jdbcType="TIMESTAMP" property="productionCompletionTime" />
+    <result column="place_order_time" jdbcType="TIMESTAMP" property="placeOrderTime" />
+    <result column="product_arrival_time" jdbcType="TIMESTAMP" property="productArrivalTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="fit_task_id" jdbcType="INTEGER" property="fitTaskId" />
+    <result column="specification" jdbcType="VARCHAR" property="specification" />
+    <result column="workamount" jdbcType="VARCHAR" property="workamount" />
+    <result column="forecast" jdbcType="VARCHAR" property="forecast" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+    @mbggenerated
+    -->
+    id, product_id, quantity, production_completion_time, place_order_time, product_arrival_time,
+    status, fit_task_id, specification, workamount, forecast ,title
+  </sql>
+  <sql id="Base_Column_List_Without_ProductId+title">
+     id,quantity, production_completion_time, place_order_time, product_arrival_time,
+    status, fit_task_id, specification, workamount, forecast
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--
+    @mbggenerated
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from t_requirement_product
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--
+    @mbggenerated
+    -->
+    delete from t_requirement_product
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.chaoxuan.zeus.model.RequirementProduct">
+    <!--
+    @mbggenerated
+    -->
+    insert into t_requirement_product (id, product_id, quantity, 
+      production_completion_time, place_order_time, 
+      product_arrival_time, status, fit_task_id, 
+      specification, workamount, forecast ,title
+      )
+    values (#{id,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, #{quantity,jdbcType=REAL}, 
+      #{productionCompletionTime,jdbcType=TIMESTAMP}, #{placeOrderTime,jdbcType=TIMESTAMP}, 
+      #{productArrivalTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{fitTaskId,jdbcType=INTEGER}, 
+      #{specification,jdbcType=VARCHAR}, #{workamount,jdbcType=VARCHAR}, #{forecast,jdbcType=VARCHAR} ,#{title,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.chaoxuan.zeus.model.RequirementProduct">
+    <!--
+    @mbggenerated
+    -->
+    insert into t_requirement_product
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="productId != null">
+        product_id,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="productionCompletionTime != null">
+        production_completion_time,
+      </if>
+      <if test="placeOrderTime != null">
+        place_order_time,
+      </if>
+      <if test="productArrivalTime != null">
+        product_arrival_time,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="fitTaskId != null">
+        fit_task_id,
+      </if>
+      <if test="specification != null">
+        specification,
+      </if>
+      <if test="workamount != null">
+        workamount,
+      </if>
+      <if test="forecast != null">
+        forecast,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null">
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=REAL},
+      </if>
+      <if test="productionCompletionTime != null">
+        #{productionCompletionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="placeOrderTime != null">
+        #{placeOrderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productArrivalTime != null">
+        #{productArrivalTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="fitTaskId != null">
+        #{fitTaskId,jdbcType=INTEGER},
+      </if>
+      <if test="specification != null">
+        #{specification,jdbcType=VARCHAR},
+      </if>
+      <if test="workamount != null">
+        #{workamount,jdbcType=VARCHAR},
+      </if>
+      <if test="forecast != null">
+        #{forecast,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.chaoxuan.zeus.model.RequirementProduct">
+    <!--
+    @mbggenerated
+    -->
+    update t_requirement_product
+    <set>
+      <if test="productId != null">
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=REAL},
+      </if>
+      <if test="productionCompletionTime != null">
+        production_completion_time = #{productionCompletionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="placeOrderTime != null">
+        place_order_time = #{placeOrderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productArrivalTime != null">
+        product_arrival_time = #{productArrivalTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="fitTaskId != null">
+        fit_task_id = #{fitTaskId,jdbcType=INTEGER},
+      </if>
+      <if test="specification != null">
+        specification = #{specification,jdbcType=VARCHAR},
+      </if>
+      <if test="workamount != null">
+        workamount = #{workamount,jdbcType=VARCHAR},
+      </if>
+      <if test="forecast != null">
+        forecast = #{forecast,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.chaoxuan.zeus.model.RequirementProduct">
+    <!--
+    @mbggenerated
+    -->
+    update t_requirement_product
+    set product_id = #{productId,jdbcType=INTEGER},
+      quantity = #{quantity,jdbcType=REAL},
+      production_completion_time = #{productionCompletionTime,jdbcType=TIMESTAMP},
+      place_order_time = #{placeOrderTime,jdbcType=TIMESTAMP},
+      product_arrival_time = #{productArrivalTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      fit_task_id = #{fitTaskId,jdbcType=INTEGER},
+      specification = #{specification,jdbcType=VARCHAR},
+      workamount = #{workamount,jdbcType=VARCHAR},
+      forecast = #{forecast,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="searchByTaskInstanceId" parameterType="int" resultMap="BaseResultMap">
+    SELECT  <include refid="Base_Column_List_Without_ProductId+title"/> ,
+    r.product_id product_id,
+    r.prstatus,
+    p.title title
+    FROM t_requirement_product r INNER JOIN cx_zz_product p
+    ON r.product_id=p.product_id WHERE r.fit_task_id = #{id}
+  </select>
+
+  <update id="upadateProducrStatus" parameterType="int">
+    update t_requirement_product set prstatus=2 where id = #{id}
+  </update>
+</mapper>

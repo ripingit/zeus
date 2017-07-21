@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.chaoxuan.zeus.dao.FitTaskAreaMapper">
+	<resultMap id="BaseResultMap" type="org.chaoxuan.zeus.model.FitTaskArea">
+		<!-- @mbggenerated -->
+		<id column="id" property="id" />
+		<result column="quota_area_id" property="quotaAreaId" />
+		<result column="fit_task_id" property="fitTaskId" />
+		<result column="upper_limit" property="upperLimit" />
+		<result column="lower_limit" property="lowerLimit" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		<!-- @mbggenerated -->
+		id, quota_area_id, fit_task_id, upper_limit, lower_limit
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		<!-- @mbggenerated -->
+		select
+		<include refid="Base_Column_List" />
+		from t_fit_task_area
+		where id = #{id}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		<!-- @mbggenerated -->
+		delete from t_fit_task_area
+		where id = #{id}
+	</delete>
+	<insert id="insert" parameterType="org.chaoxuan.zeus.model.FitTaskArea">
+		<!-- @mbggenerated -->
+		insert into t_fit_task_area (id, quota_area_id, fit_task_id,
+		upper_limit, lower_limit)
+		values (#{id}, #{quotaAreaId}, #{fitTaskId},
+		#{upperLimit}, #{lowerLimit})
+	</insert>
+	<insert id="insertSelective" parameterType="org.chaoxuan.zeus.model.FitTaskArea">
+		<!-- @mbggenerated -->
+		insert into t_fit_task_area
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="quotaAreaId != null">
+				quota_area_id,
+			</if>
+			<if test="fitTaskId != null">
+				fit_task_id,
+			</if>
+			<if test="upperLimit != null">
+				upper_limit,
+			</if>
+			<if test="lowerLimit != null">
+				lower_limit,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="quotaAreaId != null">
+				#{quotaAreaId},
+			</if>
+			<if test="fitTaskId != null">
+				#{fitTaskId},
+			</if>
+			<if test="upperLimit != null">
+				#{upperLimit},
+			</if>
+			<if test="lowerLimit != null">
+				#{lowerLimit},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="org.chaoxuan.zeus.model.FitTaskArea">
+		<!-- @mbggenerated -->
+		update t_fit_task_area
+		<set>
+			<if test="quotaAreaId != null">
+				quota_area_id = #{quotaAreaId},
+			</if>
+			<if test="fitTaskId != null">
+				fit_task_id = #{fitTaskId},
+			</if>
+			<if test="upperLimit != null">
+				upper_limit = #{upperLimit},
+			</if>
+			<if test="lowerLimit != null">
+				lower_limit = #{lowerLimit},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="org.chaoxuan.zeus.model.FitTaskArea">
+		<!-- @mbggenerated -->
+		update t_fit_task_area
+		set quota_area_id = #{quotaAreaId},
+		fit_task_id = #{fitTaskId},
+		upper_limit = #{upperLimit},
+		lower_limit = #{lowerLimit}
+		where id = #{id}
+	</update>
+	
+	<!-- 批量插入 By Yurnero -->
+	<insert id="insertBatch" parameterType="java.util.List">
+		insert into t_fit_task_area (quota_area_id, fit_task_id, upper_limit, lower_limit)
+		values
+		<foreach collection="list" item="fitTaskArea" separator=",">
+			(#{fitTaskArea.quotaAreaId}, #{fitTaskArea.fitTaskId}, #{fitTaskArea.upperLimit}, #{fitTaskArea.lowerLimit})
+		</foreach>
+	</insert>
+	
+	<select id="findByMap" parameterType="java.util.Map" resultMap="findMap">
+		select 
+			t1.quota_area_id,
+			t1.upper_limit,
+			t1.lower_limit,
+			t2.area
+		from
+			t_fit_task_area t1
+		join 
+			t_quota_area t2
+		on 
+		 t1.quota_area_id = t2.id
+		 <where>
+			<if test="fitTaskId != null">
+				and t1.fit_task_id = #{fitTaskId}
+			</if>
+		</where>
+	</select>
+	<resultMap type="org.chaoxuan.zeus.model.FitTaskArea" id="findMap">
+		<id column="quota_area_id" property="id"/>
+		<result column="upper_limit" property="upperLimit"/>
+		<result column="lower_limit" property="lowerLimit"/>
+		<result column="area" property="area"/>
+	</resultMap>
+	
+	<delete id="deleteByMap" parameterType="java.util.Map">
+		delete from t_fit_task_area
+		<where>
+			<if test="fitTaskId != null">
+				and fit_task_id = #{fitTaskId}
+			</if>
+		</where>
+	</delete>
+	
+	<select id="findByFitTaskId" parameterType="java.lang.Integer" resultMap="findByFitTaskIdMap">
+		select 
+			t1.*,
+			t2.area
+		from
+			t_fit_task_area t1
+		join 
+			t_quota_area t2
+		on 
+		 t1.quota_area_id = t2.id
+		where
+			t1.fit_task_id = #{fitTaskId}
+	</select>
+	<resultMap type="org.chaoxuan.zeus.model.FitTaskArea" id="findByFitTaskIdMap" extends="BaseResultMap">
+		<result column="area" property="area"/>
+	</resultMap>
+</mapper>
